@@ -7,7 +7,7 @@ spring:
     name: literary-association
 
   datasource:
-    url: jdbc:mysql://localhost:3306/db_camunda_lass?useSSL=false&createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade
+    url: jdbc:mysql://localhost:3306/literary_association_db?useSSL=false&createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade
     username: root
     password: admin
     # Uncomment following configuration after default DB script is created

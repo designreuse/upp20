@@ -2,25 +2,35 @@ version: '3.8'
 
 services:
 
-  mysql-development:
-    image: mysql:5.7                        # NOTE: Camunda currently has no support for MySQL8
-    container_name: lass_database
+  development-mysql:
+    image: mysql:8.0.23
+    container_name: lass_core_database
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: db_camunda_lass
+      MYSQL_DATABASE: literary_association_db
     ports:
       - "3306:3306"
 
-  camunda-development:
-    image: camunda/camunda-bpm-platform:run-7.14.0
-    container_name: lass_camunda
-    environment:
-        - DB_DRIVER=com.mysql.jdbc.Driver
-        - DB_URL=jdbc:mysql://mysql-development:3306/db_camunda_lass?sendFractionalSeconds=false
-        - DB_USERNAME=root
-        - DB_PASSWORD=admin
-        - WAIT_FOR=mysql-development:3306
-    depends_on:
-        - mysql-development
-    ports:
-        - "8080:8080"
+  # camunda-mysql:
+  #   image: mysql:5.7                        # NOTE: Camunda currently has no support for MySQL8
+  #   container_name: lass_camunda_database
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: admin
+  #     MYSQL_DATABASE: db_camunda_lass
+  #     MYSQL_TCP_PORT: 3307
+  #   ports:
+  #     - "3307:3307"
+
+  # camunda-development:
+  #   image: camunda/camunda-bpm-platform:run-7.14.0
+  #   container_name: lass_camunda
+  #   environment:
+  #       - DB_DRIVER=com.mysql.jdbc.Driver
+  #       - DB_URL=jdbc:mysql://camunda-mysql:3307/db_camunda_lass?sendFractionalSeconds=false
+  #       - DB_USERNAME=root
+  #       - DB_PASSWORD=admin
+  #       - WAIT_FOR=camunda-mysql:3307
+  #   depends_on:
+  #       - camunda-mysql
+  #   ports:
+  #       - "8080:8080"
