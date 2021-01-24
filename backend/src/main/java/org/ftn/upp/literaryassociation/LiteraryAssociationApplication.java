@@ -1,4 +1,4 @@
-package ftn.upp.literary.association;
+package org.ftn.upp.literaryassociation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
