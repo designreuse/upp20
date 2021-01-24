@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+
+  mysql-development:
+    image: mysql:5.7                        # NOTE: Camunda currently has no support for MySQL8
+    container_name: lass_database
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: db_camunda_lass
+    ports:
+      - "3306:3306"
+
+  camunda-development:
+    image: camunda/camunda-bpm-platform:run-7.14.0
+    container_name: lass_camunda
+    environment:
+        - DB_DRIVER=com.mysql.jdbc.Driver
+        - DB_URL=jdbc:mysql://mysql-development:3306/db_camunda_lass?sendFractionalSeconds=false
+        - DB_USERNAME=root
+        - DB_PASSWORD=admin
+        - WAIT_FOR=mysql-development:3306
+    depends_on:
+        - mysql-development
+    ports:
+        - "8080:8080"
