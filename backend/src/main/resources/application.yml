@@ -1,17 +1,49 @@
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/db_camunda_lass?useSSL=false&createDatabaseIfNotExist=true
-    username: root
-    password: admin
-  jpa:
-    hibernate:
-      ddl-auto: create
-
 server:
   port: 8081
+
+spring:
+
+  application:
+    name: literary-association
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_camunda_lass?useSSL=false&createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade
+    username: root
+    password: admin
+    # Uncomment following configuration after default DB script is created
+    #    initialization-mode: always
+    #    data: classpath:data.sql
+    #    separator: ^;
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: create
+      format_sql: true
+      connection:
+        characterEncoding: utf8
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: noreply.ticketist@gmail.com
+    password: ticketist123
+    properties:
+      mail:
+        transport.protocol: smtp
+        smtp:
+          starttls.enable: true
+          auth: true
 
 camunda:
   bpm:
     admin-user:
       id: demo
       password: demo
+
+# TODO: File upload configuration
+# TODO: File storage configuration
+# TODO: HTML Templates
