@@ -1,4 +1,4 @@
-package org.ftn.upp.literaryassociation;
+package org.ftn.upp.lass;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,8 +6,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class LiteraryAssociationApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LiteraryAssociationApplication.class, args);
-	}
-
+	public static void main(String[] args) { SpringApplication.run(LiteraryAssociationApplication.class, args); }
 }

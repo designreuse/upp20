@@ -1,6 +1,6 @@
-package org.ftn.upp.literaryassociation.repository;
+package org.ftn.upp.lass.repository;
 
-import org.ftn.upp.literaryassociation.model.Proofreader;
+import org.ftn.upp.lass.model.Proofreader;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

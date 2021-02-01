@@ -1,4 +1,4 @@
-package org.ftn.upp.literaryassociation.model;
+package org.ftn.upp.lass.model;
 
 import lombok.Getter;
 
