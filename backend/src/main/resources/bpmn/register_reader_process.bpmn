@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1l00b5c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+  <bpmn:process id="RegisterReaderProcess" name="Register Reader Process" isExecutable="true">
+    <bpmn:subProcess id="Activity_0ltba93">
+      <bpmn:incoming>StartMainProcessBranch</bpmn:incoming>
+      <bpmn:outgoing>EndSubProcessBranch1</bpmn:outgoing>
+      <bpmn:startEvent id="ReaderRegistrationStartEvent" name="Reader registration start">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="TODO" event="start" />
+        </bpmn:extensionElements>
+        <bpmn:outgoing>StartProcessBranch</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:userTask id="EnterUserDataUserTask" name="Enter user data" camunda:formKey="userDataForm" camunda:assignee="{readerRegistrationInitiator}">
+        <bpmn:extensionElements>
+          <camunda:formData>
+            <camunda:formField id="firstName" label="First Name" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="text" />
+                <camunda:property id="required" value="required" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="lastName" label="Last Name" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="text" />
+                <camunda:property id="required" value="required" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="email" label="eMail" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="email" />
+                <camunda:property id="required" value="required" />
+                <camunda:property id="pattern" value="^(?:[a-z0-9!#$%&#38;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&#38;&#39;*+/=?^_`{|}~-]+)*|&#34;(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*&#34;)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="username" label="Username" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="text" />
+                <camunda:property id="required" value="required" />
+                <camunda:property id="pattern" value="^[a-zA-Z0-9_]*$" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+                <camunda:constraint name="minlength" config="6" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="password" label="Password" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="password" />
+                <camunda:property id="required" value="required" />
+                <camunda:property id="pattern" value="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="street" label="Street" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="text" />
+                <camunda:property id="required" value="required" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="city" label="City" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="text" />
+                <camunda:property id="required" value="required" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="postalCode" label="Postal Code" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="text" />
+                <camunda:property id="required" value="required" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="country" label="Country" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="text" />
+                <camunda:property id="required" value="required" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="favoriteGenres" label="Select Favorite Genres" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="select" />
+                <camunda:property id="required" value="required" />
+                <camunda:property id="multiple" value="multiple" />
+              </camunda:properties>
+            </camunda:formField>
+            <camunda:formField id="isBetaAccessRequested" label="Request beta access?" type="boolean" defaultValue="false">
+              <camunda:properties>
+                <camunda:property id="type" value="checkbox" />
+              </camunda:properties>
+            </camunda:formField>
+          </camunda:formData>
+        </bpmn:extensionElements>
+        <bpmn:incoming>ValidationFailedBranch</bpmn:incoming>
+        <bpmn:incoming>StartProcessBranch</bpmn:incoming>
+        <bpmn:outgoing>BetaAccessRequestedExclusiveGatewayInputBranch</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:exclusiveGateway id="BetaAccessRequestedExclusiveGateway" name="Beta access requested?" default="BetaAccessNotRequestedBranch">
+        <bpmn:incoming>BetaAccessRequestedExclusiveGatewayInputBranch</bpmn:incoming>
+        <bpmn:outgoing>BetaAccessRequestedBranch</bpmn:outgoing>
+        <bpmn:outgoing>BetaAccessNotRequestedBranch</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:userTask id="SelectBetaAccessGenresUserTask" name="Select beta access genres" camunda:formKey="betaAccessGenresForm" camunda:assignee="{readerRegistrationInitiator}">
+        <bpmn:extensionElements>
+          <camunda:formData>
+            <camunda:formField id="betaAccessGenres" label="Select Beta Access Genres" type="string">
+              <camunda:properties>
+                <camunda:property id="type" value="select" />
+                <camunda:property id="required" value="required" />
+                <camunda:property id="multiple" value="multiple" />
+              </camunda:properties>
+            </camunda:formField>
+          </camunda:formData>
+        </bpmn:extensionElements>
+        <bpmn:incoming>BetaAccessRequestedBranch</bpmn:incoming>
+        <bpmn:outgoing>BetaAccessRequestedExclusiveGatewayJoinBranch</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:exclusiveGateway id="BetaAccessRequestedExclusiveGatewayJoin">
+        <bpmn:incoming>BetaAccessNotRequestedBranch</bpmn:incoming>
+        <bpmn:incoming>BetaAccessRequestedExclusiveGatewayJoinBranch</bpmn:incoming>
+        <bpmn:outgoing>BetaAccessRequestedExclusiveGatewayContinueBranch</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:serviceTask id="ValidateAndCreateReaderServiceTask" name="Validate and create reader">
+        <bpmn:incoming>BetaAccessRequestedExclusiveGatewayContinueBranch</bpmn:incoming>
+        <bpmn:outgoing>ServiceTaskBranch1</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:serviceTask id="SendAccountVerificationEmailServiceTask" name="Send account verification email">
+        <bpmn:incoming>ServiceTaskBranch1</bpmn:incoming>
+        <bpmn:outgoing>UserAccountActivationEventGatewayInputBranch</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:endEvent id="ReaderRegistrationEndEvent" name="Reader registration end">
+        <bpmn:incoming>EndProcessBranch</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:exclusiveGateway id="EndProcessGatewayJoin">
+        <bpmn:incoming>EndProcessGatewayJoinBranch1</bpmn:incoming>
+        <bpmn:incoming>EndProcessGatewayJoinBranch2</bpmn:incoming>
+        <bpmn:outgoing>EndProcessBranch</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:eventBasedGateway id="UserAccountVerificationEventGateway">
+        <bpmn:incoming>UserAccountActivationEventGatewayInputBranch</bpmn:incoming>
+        <bpmn:outgoing>VerificationTokenExpiredTimerEventInputBranch</bpmn:outgoing>
+        <bpmn:outgoing>UserAccountVerifiedMessageEventInputBranch</bpmn:outgoing>
+      </bpmn:eventBasedGateway>
+      <bpmn:intermediateCatchEvent id="VerificationTokenExpiredTimerEvent" name="Verification token expired (24 h)">
+        <bpmn:incoming>VerificationTokenExpiredTimerEventInputBranch</bpmn:incoming>
+        <bpmn:outgoing>VerificationTokenExpiredTimerEventOutputBranch</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_1wdebwu">
+          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1D</bpmn:timeDuration>
+        </bpmn:timerEventDefinition>
+      </bpmn:intermediateCatchEvent>
+      <bpmn:intermediateCatchEvent id="UserAccountVerifiedMessageEvent" name="User account verified">
+        <bpmn:incoming>UserAccountVerifiedMessageEventInputBranch</bpmn:incoming>
+        <bpmn:outgoing>UserAccountVerifiedMessageEventOutputBranch</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_0p76vfx" messageRef="Message_021z1yd" />
+      </bpmn:intermediateCatchEvent>
+      <bpmn:serviceTask id="Activity_1bur4mp" name="Deactivate user account">
+        <bpmn:incoming>VerificationTokenExpiredTimerEventOutputBranch</bpmn:incoming>
+        <bpmn:outgoing>EndProcessGatewayJoinBranch1</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:serviceTask id="Activity_0erpibc" name="Activate user account">
+        <bpmn:incoming>UserAccountVerifiedMessageEventOutputBranch</bpmn:incoming>
+        <bpmn:outgoing>EndProcessGatewayJoinBranch2</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:boundaryEvent id="ValidationFailedInterruptingErrorBoundaryEvent" name="Validation Error" attachedToRef="ValidateAndCreateReaderServiceTask">
+        <bpmn:outgoing>ValidationFailedBranch</bpmn:outgoing>
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_0v1w98k" />
+      </bpmn:boundaryEvent>
+      <bpmn:sequenceFlow id="ValidationFailedBranch" name="Validation failed" sourceRef="ValidationFailedInterruptingErrorBoundaryEvent" targetRef="EnterUserDataUserTask" />
+      <bpmn:sequenceFlow id="BetaAccessRequestedExclusiveGatewayInputBranch" sourceRef="EnterUserDataUserTask" targetRef="BetaAccessRequestedExclusiveGateway" />
+      <bpmn:sequenceFlow id="BetaAccessRequestedBranch" name="Yes" sourceRef="BetaAccessRequestedExclusiveGateway" targetRef="SelectBetaAccessGenresUserTask">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isBetaAccessRequested==true}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="BetaAccessNotRequestedBranch" name="No" sourceRef="BetaAccessRequestedExclusiveGateway" targetRef="BetaAccessRequestedExclusiveGatewayJoin" />
+      <bpmn:sequenceFlow id="BetaAccessRequestedExclusiveGatewayJoinBranch" sourceRef="SelectBetaAccessGenresUserTask" targetRef="BetaAccessRequestedExclusiveGatewayJoin" />
+      <bpmn:sequenceFlow id="BetaAccessRequestedExclusiveGatewayContinueBranch" sourceRef="BetaAccessRequestedExclusiveGatewayJoin" targetRef="ValidateAndCreateReaderServiceTask" />
+      <bpmn:sequenceFlow id="ServiceTaskBranch1" sourceRef="ValidateAndCreateReaderServiceTask" targetRef="SendAccountVerificationEmailServiceTask" />
+      <bpmn:sequenceFlow id="UserAccountActivationEventGatewayInputBranch" sourceRef="SendAccountVerificationEmailServiceTask" targetRef="UserAccountVerificationEventGateway" />
+      <bpmn:sequenceFlow id="EndProcessBranch" sourceRef="EndProcessGatewayJoin" targetRef="ReaderRegistrationEndEvent" />
+      <bpmn:sequenceFlow id="EndProcessGatewayJoinBranch1" sourceRef="Activity_1bur4mp" targetRef="EndProcessGatewayJoin" />
+      <bpmn:sequenceFlow id="EndProcessGatewayJoinBranch2" sourceRef="Activity_0erpibc" targetRef="EndProcessGatewayJoin" />
+      <bpmn:sequenceFlow id="VerificationTokenExpiredTimerEventInputBranch" sourceRef="UserAccountVerificationEventGateway" targetRef="VerificationTokenExpiredTimerEvent" />
+      <bpmn:sequenceFlow id="UserAccountVerifiedMessageEventInputBranch" sourceRef="UserAccountVerificationEventGateway" targetRef="UserAccountVerifiedMessageEvent" />
+      <bpmn:sequenceFlow id="VerificationTokenExpiredTimerEventOutputBranch" sourceRef="VerificationTokenExpiredTimerEvent" targetRef="Activity_1bur4mp" />
+      <bpmn:sequenceFlow id="UserAccountVerifiedMessageEventOutputBranch" sourceRef="UserAccountVerifiedMessageEvent" targetRef="Activity_0erpibc" />
+      <bpmn:sequenceFlow id="StartProcessBranch" sourceRef="ReaderRegistrationStartEvent" targetRef="EnterUserDataUserTask" />
+      <bpmn:association id="Association_0j74cnm" sourceRef="ReaderRegistrationStartEvent" targetRef="TextAnnotation_0hr62vs" />
+      <bpmn:association id="Association_1dsrcsw" sourceRef="EnterUserDataUserTask" targetRef="TextAnnotation_0d5fse3" />
+      <bpmn:association id="Association_1jg8trn" sourceRef="SelectBetaAccessGenresUserTask" targetRef="TextAnnotation_1ec3n09" />
+      <bpmn:association id="Association_04i47s4" sourceRef="SelectBetaAccessGenresUserTask" targetRef="TextAnnotation_03n6khh" />
+      <bpmn:association id="Association_04zncx8" sourceRef="ValidateAndCreateReaderServiceTask" targetRef="TextAnnotation_0mes0qz" />
+      <bpmn:association id="Association_0u530z1" sourceRef="SendAccountVerificationEmailServiceTask" targetRef="TextAnnotation_0crjxyi" />
+      <bpmn:association id="Association_0c50sso" sourceRef="UserAccountVerifiedMessageEvent" targetRef="TextAnnotation_1wudhai" />
+      <bpmn:association id="Association_1e55nte" sourceRef="Activity_1bur4mp" targetRef="TextAnnotation_1fzubdh" />
+      <bpmn:association id="Association_0kmxkut" sourceRef="Activity_0erpibc" targetRef="TextAnnotation_15u1whx" />
+      <bpmn:textAnnotation id="TextAnnotation_1ec3n09">
+        <bpmn:text>Q: We have two user tasks one after another - question is, how to handle this? Where will we store the result of the first task? Do we have to join this task with the previous one?</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:textAnnotation id="TextAnnotation_0mes0qz">
+        <bpmn:text>TODO: Connect to delegate</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:textAnnotation id="TextAnnotation_0crjxyi">
+        <bpmn:text>TODO: Connect to delegate</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:textAnnotation id="TextAnnotation_1fzubdh">
+        <bpmn:text>TODO: Connect to delegate</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:textAnnotation id="TextAnnotation_15u1whx">
+        <bpmn:text>TODO: Connect to delegate</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:textAnnotation id="TextAnnotation_03n6khh">
+        <bpmn:text>TODO: Re-check pickGenreListener from initial version.
+
+Task listener -&gt; create : DelegateExpression ${pickGenreListener}
+
+Refer to the question on right side, use same solution as in previous user task.</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:textAnnotation id="TextAnnotation_0hr62vs">
+        <bpmn:text>TODO: Add class name for start listener to retrieve all available genres in the system and set them as execution variable?</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:textAnnotation id="TextAnnotation_0d5fse3">
+        <bpmn:text>TODO: Add create task listener script to generate form fields with previously loaded genres.
+
+Also, set the genres selector to custom type.
+
+Remove assignee.</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:textAnnotation id="TextAnnotation_1wudhai">
+        <bpmn:text>Q: Who will send the message?</bpmn:text>
+      </bpmn:textAnnotation>
+    </bpmn:subProcess>
+    <bpmn:endEvent id="RegularReaderRegistrationEndEvent">
+      <bpmn:incoming>EndSubProcessBranch1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="ReaderRegistrationMainStartEvent">
+      <bpmn:outgoing>StartMainProcessBranch</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="ProcessDurationLimitExceededReaderRegistrationEndEvent">
+      <bpmn:incoming>EndSubProcessBranch2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="ProcessDurationLimitExceededEvent" name="Process duration limit exceeded" attachedToRef="Activity_0ltba93">
+      <bpmn:outgoing>EndSubProcessBranch2</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_12fimt6">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1D</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="EndSubProcessBranch2" sourceRef="ProcessDurationLimitExceededEvent" targetRef="ProcessDurationLimitExceededReaderRegistrationEndEvent" />
+    <bpmn:sequenceFlow id="EndSubProcessBranch1" sourceRef="Activity_0ltba93" targetRef="RegularReaderRegistrationEndEvent" />
+    <bpmn:sequenceFlow id="StartMainProcessBranch" sourceRef="ReaderRegistrationMainStartEvent" targetRef="Activity_0ltba93" />
+  </bpmn:process>
+  <bpmn:message id="Message_021z1yd" name="UserAccountVerifiedMessage" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="RegisterReaderProcess">
+      <bpmndi:BPMNEdge id="Flow_1veu969_di" bpmnElement="EndSubProcessBranch2">
+        <di:waypoint x="292" y="850" />
+        <di:waypoint x="188" y="850" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01fklvw_di" bpmnElement="EndSubProcessBranch1">
+        <di:waypoint x="310" y="730" />
+        <di:waypoint x="188" y="730" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0addz16_di" bpmnElement="StartMainProcessBranch">
+        <di:waypoint x="188" y="540" />
+        <di:waypoint x="310" y="540" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0utwff4_di" bpmnElement="ReaderRegistrationMainStartEvent">
+        <dc:Bounds x="152" y="522" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1l62ryd_di" bpmnElement="RegularReaderRegistrationEndEvent">
+        <dc:Bounds x="152" y="712" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1pinkpp_di" bpmnElement="ProcessDurationLimitExceededReaderRegistrationEndEvent">
+        <dc:Bounds x="152" y="832" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ltba93_di" bpmnElement="Activity_0ltba93" isExpanded="true">
+        <dc:Bounds x="310" y="80" width="1290" height="920" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1ec3n09_di" bpmnElement="TextAnnotation_1ec3n09" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="1210" y="183" width="220" height="96" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0mes0qz_di" bpmnElement="TextAnnotation_0mes0qz" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="1400" y="423" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0crjxyi_di" bpmnElement="TextAnnotation_0crjxyi" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="1400" y="553" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1fzubdh_di" bpmnElement="TextAnnotation_1fzubdh" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="670" y="853" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_15u1whx_di" bpmnElement="TextAnnotation_15u1whx" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="810" y="923" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_03n6khh_di" bpmnElement="TextAnnotation_03n6khh" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="820" y="183" width="310" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0d5fse3_di" bpmnElement="TextAnnotation_0d5fse3" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="490" y="233" width="159.9883855981417" height="137.04994192799072" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1wudhai_di" bpmnElement="TextAnnotation_1wudhai" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="1183" y="863" width="134" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0hr62vs_di" bpmnElement="TextAnnotation_0hr62vs" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="385" y="520" width="148.99099883855982" height="95.98214285714286" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1v87rna_di" bpmnElement="ValidationFailedBranch">
+        <di:waypoint x="1250" y="482" />
+        <di:waypoint x="1250" y="373" />
+        <di:waypoint x="760" y="373" />
+        <di:waypoint x="760" y="500" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="968" y="355" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gtgzhg_di" bpmnElement="BetaAccessRequestedExclusiveGatewayInputBranch">
+        <di:waypoint x="810" y="540" />
+        <di:waypoint x="855" y="540" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1heh1a4_di" bpmnElement="BetaAccessRequestedBranch">
+        <di:waypoint x="905" y="540" />
+        <di:waypoint x="950" y="540" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="919" y="522" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0or9qfk_di" bpmnElement="BetaAccessNotRequestedBranch">
+        <di:waypoint x="880" y="515" />
+        <di:waypoint x="880" y="443" />
+        <di:waypoint x="1120" y="443" />
+        <di:waypoint x="1120" y="515" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="993" y="425" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rri0si_di" bpmnElement="BetaAccessRequestedExclusiveGatewayJoinBranch">
+        <di:waypoint x="1050" y="540" />
+        <di:waypoint x="1095" y="540" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yq8ah3_di" bpmnElement="BetaAccessRequestedExclusiveGatewayContinueBranch">
+        <di:waypoint x="1145" y="540" />
+        <di:waypoint x="1200" y="540" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0s77enu_di" bpmnElement="ServiceTaskBranch1">
+        <di:waypoint x="1250" y="580" />
+        <di:waypoint x="1250" y="683" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rzafc5_di" bpmnElement="UserAccountActivationEventGatewayInputBranch">
+        <di:waypoint x="1200" y="723" />
+        <di:waypoint x="1145" y="723" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07mmpcb_di" bpmnElement="EndProcessBranch">
+        <di:waypoint x="735" y="723" />
+        <di:waypoint x="665" y="723" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bux0ur_di" bpmnElement="EndProcessGatewayJoinBranch1">
+        <di:waypoint x="860" y="663" />
+        <di:waypoint x="760" y="663" />
+        <di:waypoint x="760" y="698" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03x2ekx_di" bpmnElement="EndProcessGatewayJoinBranch2">
+        <di:waypoint x="860" y="783" />
+        <di:waypoint x="760" y="783" />
+        <di:waypoint x="760" y="748" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ps9op2_di" bpmnElement="VerificationTokenExpiredTimerEventInputBranch">
+        <di:waypoint x="1120" y="698" />
+        <di:waypoint x="1120" y="663" />
+        <di:waypoint x="1058" y="663" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0k5fouu_di" bpmnElement="UserAccountVerifiedMessageEventInputBranch">
+        <di:waypoint x="1120" y="748" />
+        <di:waypoint x="1120" y="783" />
+        <di:waypoint x="1058" y="783" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0i6xlnc_di" bpmnElement="VerificationTokenExpiredTimerEventOutputBranch">
+        <di:waypoint x="1022" y="663" />
+        <di:waypoint x="960" y="663" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nhfgvo_di" bpmnElement="UserAccountVerifiedMessageEventOutputBranch">
+        <di:waypoint x="1022" y="783" />
+        <di:waypoint x="960" y="783" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05lw1u7_di" bpmnElement="StartProcessBranch">
+        <di:waypoint x="665" y="540" />
+        <di:waypoint x="710" y="540" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-899" y="-118" width="27" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1e8ad4v_di" bpmnElement="EnterUserDataUserTask">
+        <dc:Bounds x="710" y="500" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0bhz1su_di" bpmnElement="BetaAccessRequestedExclusiveGateway" isMarkerVisible="true">
+        <dc:Bounds x="855" y="515" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="849" y="575" width="61" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1emd6ij_di" bpmnElement="SelectBetaAccessGenresUserTask">
+        <dc:Bounds x="950" y="500" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1rtki65_di" bpmnElement="BetaAccessRequestedExclusiveGatewayJoin" isMarkerVisible="true">
+        <dc:Bounds x="1095" y="515" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1lf57cg_di" bpmnElement="ValidateAndCreateReaderServiceTask">
+        <dc:Bounds x="1200" y="500" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0a6vha5_di" bpmnElement="SendAccountVerificationEmailServiceTask">
+        <dc:Bounds x="1200" y="683" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0uz0vwj_di" bpmnElement="ReaderRegistrationEndEvent">
+        <dc:Bounds x="629" y="705" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="611" y="748" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_002owlt_di" bpmnElement="EndProcessGatewayJoin" isMarkerVisible="true">
+        <dc:Bounds x="735" y="698" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_15hmuyj_di" bpmnElement="UserAccountVerificationEventGateway">
+        <dc:Bounds x="1095" y="698" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="575" y="550" width="31" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ykjphu_di" bpmnElement="VerificationTokenExpiredTimerEvent">
+        <dc:Bounds x="1022" y="645" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="999" y="688" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1w81plq_di" bpmnElement="UserAccountVerifiedMessageEvent">
+        <dc:Bounds x="1022" y="765" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1009" y="808" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jphrql_di" bpmnElement="Activity_1bur4mp">
+        <dc:Bounds x="860" y="623" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mi3hxn_di" bpmnElement="Activity_0erpibc">
+        <dc:Bounds x="860" y="743" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0sm6gao_di" bpmnElement="ReaderRegistrationStartEvent">
+        <dc:Bounds x="629" y="522" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="607" y="565" width="80" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1jg8trn_di" bpmnElement="Association_1jg8trn">
+        <di:waypoint x="1033" y="500" />
+        <di:waypoint x="1215" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_04zncx8_di" bpmnElement="Association_04zncx8">
+        <di:waypoint x="1300" y="515" />
+        <di:waypoint x="1401" y="463" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0u530z1_di" bpmnElement="Association_0u530z1">
+        <di:waypoint x="1297" y="686" />
+        <di:waypoint x="1418" y="593" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1e55nte_di" bpmnElement="Association_1e55nte">
+        <di:waypoint x="860" y="658" />
+        <di:waypoint x="730" y="853" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0kmxkut_di" bpmnElement="Association_0kmxkut">
+        <di:waypoint x="897" y="823" />
+        <di:waypoint x="865" y="923" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_04i47s4_di" bpmnElement="Association_04i47s4">
+        <di:waypoint x="971" y="500" />
+        <di:waypoint x="1046" y="293" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1dsrcsw_di" bpmnElement="Association_1dsrcsw">
+        <di:waypoint x="744" y="500" />
+        <di:waypoint x="710" y="413" />
+        <di:waypoint x="650" y="359" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0c50sso_di" bpmnElement="Association_0c50sso">
+        <di:waypoint x="1056" y="791" />
+        <di:waypoint x="1203" y="863" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0j74cnm_di" bpmnElement="Association_0j74cnm">
+        <di:waypoint x="629" y="540" />
+        <di:waypoint x="534" y="548" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0yxrhzr_di" bpmnElement="ValidationFailedInterruptingErrorBoundaryEvent">
+        <dc:Bounds x="1232" y="482" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1213" y="456" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0kthul5_di" bpmnElement="ProcessDurationLimitExceededEvent">
+        <dc:Bounds x="292" y="832" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="268" y="876" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
