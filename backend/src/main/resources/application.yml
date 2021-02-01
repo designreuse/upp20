@@ -46,6 +46,11 @@ camunda:
       id: demo
       password: demo
 
+templates:
+  html:
+    verification: "verification"
+
+
 # TODO: File upload configuration
 # TODO: File storage configuration
 # TODO: HTML Templates
