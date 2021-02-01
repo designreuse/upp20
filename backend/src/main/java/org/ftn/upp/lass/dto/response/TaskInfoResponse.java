@@ -7,5 +7,6 @@ import lombok.Data;
 @Builder
 public class TaskInfoResponse {
 
+    private final String processInstanceId;
     private final String taskId;
 }

@@ -41,6 +41,7 @@ public class TaskManagementController {
 
         log.info(LogMessages.ASSIGNED_TASK_TO_CURRENT_USER, taskId, "USER_ID");
         return TaskInfoResponse.builder()
+                .processInstanceId(taskToBeClaimed.getProcessInstanceId())
                 .taskId(taskToBeClaimed.getId())
                 .build();
     }
@@ -89,7 +90,7 @@ public class TaskManagementController {
                 .build();
     }
 
-    private Task getTask(@NotBlank String taskId) {
+    private Task getTask(@NotBlank String taskId) throws BadRequestException {
         final Task requestedTask;
         try {
             requestedTask = this.taskService.createTaskQuery().taskId(taskId).singleResult();
