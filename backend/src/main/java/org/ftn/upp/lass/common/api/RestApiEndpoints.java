@@ -13,6 +13,7 @@ public final class RestApiEndpoints {
     public static final String START_PROCESS_INSTANCE = "/start-process";
 
     public static final String TASK_MANAGEMENT = API_ROOT + "/task-management";
+    public static final String CLAIM_TASK = "/claim-task";
     public static final String CURRENTLY_ACTIVE_TASK_FORM = "/currently-active-task-form";
     public static final String TASK_FORM = "/task-form";
 

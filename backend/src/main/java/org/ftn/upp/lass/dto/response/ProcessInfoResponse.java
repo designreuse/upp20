@@ -1,4 +1,4 @@
-package org.ftn.upp.lass.dto;
+package org.ftn.upp.lass.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

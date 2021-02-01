@@ -8,7 +8,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.ftn.upp.lass.common.LogMessages;
 import org.ftn.upp.lass.common.api.RestApiEndpoints;
 import org.ftn.upp.lass.common.api.RestApiRequestParameters;
-import org.ftn.upp.lass.dto.ProcessInfoResponse;
+import org.ftn.upp.lass.dto.response.ProcessInfoResponse;
 import org.ftn.upp.lass.exception.NotFoundException;
 import org.ftn.upp.lass.util.ErrorMessageUtil;
 import org.springframework.http.ResponseEntity;

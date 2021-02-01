@@ -10,4 +10,12 @@ public final class ErrorMessageUtil {
     public static String processWithGivenNameNotFound(String processName) {
         return String.format("Process with name '%s' was not found.", processName);
     }
+
+    public static String activeTaskForProcessInstanceNotFound(String processInstanceId) {
+        return String.format("Active task for process instance '%s' was not found.", processInstanceId);
+    }
+
+    public static String taskNotFound(String taskId) {
+        return String.format("Task with ID '%s' was not found.", taskId);
+    }
 }

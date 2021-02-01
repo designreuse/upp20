@@ -8,6 +8,8 @@ public final class LogMessages {
 
     public static final String STARTING_PROCESS = "Starting process instance of process {}.";
     public static final String PROCESS_STARTED = "Started process instance {} of process {}.";
+    public static final String ASSIGNING_TASK_TO_CURRENT_USER = "Assigning task {} to current user.";
+    public static final String ASSIGNED_TASK_TO_CURRENT_USER = "Assigned task {} to user {}.";
     public static final String RETRIEVEING_CURRENTLY_ACTIVE_TASK_FORM = "Retrieveing form for the currently active task of process instance {}.";
     public static final String RETRIEVED_CURRENTLY_ACTIVE_TASK_FORM = "Retrieved form for the currently active task {} of process instance {}.";
     public static final String RETRIEVEING_TASK_FORM = "Retrieveing form for task {}.";
