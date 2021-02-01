@@ -18,4 +18,12 @@ public final class ErrorMessageUtil {
     public static String taskNotFound(String taskId) {
         return String.format("Task with ID '%s' was not found.", taskId);
     }
+
+    public static String taskIsNotActive(String taskId) {
+        return String.format("Task with ID '%s' is not active.", taskId);
+    }
+
+    public static String taskIsNotAssigned(String taskId) {
+        return String.format("Task with ID '%s' is not assigned to any user.", taskId);
+    }
 }
