@@ -12,5 +12,6 @@ public final class Constants {
         private ProcessVariables() { }
 
         public static final String FORM_DATA = "formData";
+        public static final String AVAILABLE_GENRES = "availableGenres";
     }
 }
