@@ -16,6 +16,6 @@ public class UsernameAvailabilityValidator implements FormFieldValidator {
     @Override
     public boolean validate(Object submittedValue, FormFieldValidatorContext validatorContext) {
         String username = (String) submittedValue;
-        return this.userRepository.existsUserByUsername(username);
+        return !this.userRepository.existsUserByUsername(username);
     }
 }

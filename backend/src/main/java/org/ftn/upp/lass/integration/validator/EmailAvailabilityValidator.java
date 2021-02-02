@@ -16,6 +16,6 @@ public class EmailAvailabilityValidator implements FormFieldValidator {
     @Override
     public boolean validate(Object submittedValue, FormFieldValidatorContext validatorContext) {
         String email = (String) submittedValue;
-        return this.userRepository.existsUserByEmail(email);
+        return !this.userRepository.existsUserByEmail(email);
     }
 }
