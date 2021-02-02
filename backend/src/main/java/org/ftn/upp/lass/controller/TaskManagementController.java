@@ -19,6 +19,7 @@ import org.ftn.upp.lass.security.JwtTokenDetailsUtil;
 import org.ftn.upp.lass.util.ErrorMessageUtil;
 import org.ftn.upp.lass.util.ExceptionUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
@@ -27,6 +28,7 @@ import javax.validation.constraints.NotBlank;
 @RequestMapping(RestApiEndpoints.TASK_MANAGEMENT)
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class TaskManagementController {
 
     private final TaskService taskService;

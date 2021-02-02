@@ -8,12 +8,14 @@ import org.ftn.upp.lass.dto.request.FormSubmissionRequest;
 import org.ftn.upp.lass.dto.response.TaskInfoResponse;
 import org.ftn.upp.lass.service.FormManagementService;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(RestApiEndpoints.FORM_MANAGEMENT)
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class FormManagementController {
 
     private final FormManagementService formManagementService;
@@ -23,7 +25,7 @@ public class FormManagementController {
     @ResponseStatus(HttpStatus.OK)
     public TaskInfoResponse submitForm(@RequestBody FormSubmissionRequest formSubmissionRequest) {
         log.info(LogMessages.SUBMITTING_FORM, formSubmissionRequest.getTaskId());
-        var processInstanceId = this.formManagementService.submitForm(formSubmissionRequest);
+        final var processInstanceId = this.formManagementService.submitForm(formSubmissionRequest);
         log.info(LogMessages.FORM_SUBMITTED, formSubmissionRequest.getTaskId(), processInstanceId);
 
         return TaskInfoResponse.builder()

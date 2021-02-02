@@ -12,12 +12,14 @@ import org.ftn.upp.lass.dto.response.ProcessInfoResponse;
 import org.ftn.upp.lass.exception.NotFoundException;
 import org.ftn.upp.lass.util.ErrorMessageUtil;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(RestApiEndpoints.PROCESS_MANAGEMENT)
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class ProcessManagementController {
 
     private final RuntimeService runtimeService;
