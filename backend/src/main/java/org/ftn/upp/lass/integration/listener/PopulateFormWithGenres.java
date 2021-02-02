@@ -38,8 +38,9 @@ public class PopulateFormWithGenres implements TaskListener {
 
             log.info(LogMessages.POPULATED_FORM_WITH_GENRES, delegateTask.getId());
         }
-
-        throw new InternalServerException();
+        else {
+            throw new InternalServerException();
+        }
     }
 }
 
