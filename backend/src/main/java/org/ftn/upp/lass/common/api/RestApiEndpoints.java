@@ -22,4 +22,5 @@ public final class RestApiEndpoints {
 
     public static final String FORM_MANAGEMENT = API_ROOT + "/form-management";
     public static final String SUBMIT_FORM = "/submit-form";
+    public static final String SUBMIT_FORM_WITHOUT_ASSIGNEE = "/submit-form-without-assignee";
 }
