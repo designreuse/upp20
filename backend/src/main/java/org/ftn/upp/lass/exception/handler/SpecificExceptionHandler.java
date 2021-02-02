@@ -2,6 +2,7 @@ package org.ftn.upp.lass.exception.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.ftn.upp.lass.common.LogMessages;
+import org.ftn.upp.lass.common.api.RestApiResponseParameters;
 import org.ftn.upp.lass.exception.BadRequestException;
 import org.ftn.upp.lass.exception.InsufficientPrivilegesException;
 import org.ftn.upp.lass.exception.NotFoundException;
@@ -9,6 +10,7 @@ import org.ftn.upp.lass.dto.response.ErrorResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,6 +42,18 @@ public class SpecificExceptionHandler {
     // =================================================================================================================
     // NOT FOUND EXCEPTIONS
     // =================================================================================================================
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorResponse handleBadCredentialsException(BadCredentialsException e) {
+        log.error(LogMessages.EXCEPTION, e.getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setMessage(e.getMessage());
+
+        return errorResponse;
+    }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

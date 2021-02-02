@@ -1,5 +1,6 @@
 package org.ftn.upp.lass.security;
 
+import org.ftn.upp.lass.common.api.RestApiEndpoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .csrf()
                 .disable()
                 .authorizeRequests()
+                .antMatchers(RestApiEndpoints.AUTH).permitAll()
                 .antMatchers("/**").permitAll()
                 .and()
                 .exceptionHandling()

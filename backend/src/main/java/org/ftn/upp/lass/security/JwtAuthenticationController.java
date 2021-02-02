@@ -9,6 +9,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(RestApiEndpoints.AUTH)
 @RequiredArgsConstructor
@@ -22,7 +24,7 @@ public class JwtAuthenticationController {
     @PostMapping(RestApiEndpoints.LOG_IN)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public JwtResponse createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) {
+    public JwtResponse createAuthenticationToken(@Valid @RequestBody JwtRequest authenticationRequest) {
         this.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final JwtUser userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = this.jwtTokenUtils.generateToken(userDetails);
