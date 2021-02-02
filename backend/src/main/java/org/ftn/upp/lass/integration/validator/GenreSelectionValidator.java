@@ -9,6 +9,7 @@ public class GenreSelectionValidator implements FormFieldValidator {
 
     @Override
     public boolean validate(Object submittedValue, FormFieldValidatorContext validatorContext) {
-        return !((List<?>) submittedValue).isEmpty();
+        var submittedGenres = (List<?>) submittedValue;
+        return submittedGenres != null && !submittedGenres.isEmpty();
     }
 }
