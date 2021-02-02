@@ -18,4 +18,7 @@ public final class LogMessages {
     public static final String FORM_SUBMITTED = "Submitted form for task {} of process instance {}.";
     public static final String LOADING_AVAILABLE_GENRES = "Loading available genres...";
     public static final String STORED_AVAILABLE_GENRES = "Stored available genres as process variable {} of process instance {}.";
+    public static final String POPULATING_FORM_WITH_GENRES = "Populating form of task {} with genres.";
+    public static final String POPULATED_FORM_WITH_GENRES = "Populated form of task {} with genres.";
+
 }

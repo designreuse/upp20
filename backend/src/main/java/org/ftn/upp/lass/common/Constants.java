@@ -13,5 +13,7 @@ public final class Constants {
 
         public static final String FORM_DATA = "formData";
         public static final String AVAILABLE_GENRES = "availableGenres";
+        public static final String FAVORITE_GENRES = "favoriteGenres";
+        public static final String BETA_ACCESS_GENRES = "betaAccessGenres";
     }
 }
