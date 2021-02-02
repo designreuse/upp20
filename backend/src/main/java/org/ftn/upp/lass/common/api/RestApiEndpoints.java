@@ -9,6 +9,9 @@ public final class RestApiEndpoints {
 
     private static final String API_ROOT = "/api/v1";
 
+    public static final String AUTH = API_ROOT + "/auth";
+    public static final String LOG_IN = "/log-in";
+
     public static final String PROCESS_MANAGEMENT = API_ROOT + "/process-management";
     public static final String START_PROCESS_INSTANCE = "/start-process";
 

@@ -46,6 +46,11 @@ camunda:
       id: demo
       password: demo
 
+security:
+  jwt:
+    secret: most.secure.secret.ever
+    lifetime: 604800
+
 templates:
   html:
     verification: "verification"
