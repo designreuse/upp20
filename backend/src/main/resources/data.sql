@@ -1,4 +1,4 @@
--- TRUNCATE TABLE literary_association_db.genres ^;
+DELETE FROM literary_association_db.genres ^;
 INSERT INTO literary_association_db.genres (id, name)
 VALUES
     (9000, 'Action'), (9001, 'Adventure'), (9002, 'Classic'), (9003, 'Comic Book'), (9004, 'Graphic Novel'),
