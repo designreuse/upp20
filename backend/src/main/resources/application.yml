@@ -10,13 +10,12 @@ spring:
     url: jdbc:mysql://localhost:3306/literary_association_db?useSSL=false&createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade
     username: root
     password: admin
-    # Uncomment following configuration after default DB script is created
-    #    initialization-mode: always
-    #    data: classpath:data.sql
-    #    separator: ^;
+    initialization-mode: always
+    data: classpath:data.sql
+    separator: ^;
 
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
       format-sql: true
