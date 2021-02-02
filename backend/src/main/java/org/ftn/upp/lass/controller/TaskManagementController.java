@@ -68,7 +68,10 @@ public class TaskManagementController {
 
         final Task currentlyActiveTask;
         try {
-            currentlyActiveTask = this.taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+            currentlyActiveTask = this.taskService.createTaskQuery()
+                    .processInstanceId(processInstanceId)
+                    .active()
+                    .singleResult();
         } catch (ProcessEngineException e) {
             throw new BadRequestException(BadRequestResponseCode.INVALID_REQUEST_DATA, ErrorMessageUtil.activeTaskForProcessInstanceNotFound(processInstanceId));
         }
