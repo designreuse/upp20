@@ -26,4 +26,8 @@ public final class ErrorMessageUtil {
     public static String taskIsNotAssigned(String taskId) {
         return String.format("Task with ID '%s' is not assigned to any user.", taskId);
     }
+
+    public static String userDoesNotExist(String username) {
+        return String.format("User with username {} was not found.", username);
+    }
 }

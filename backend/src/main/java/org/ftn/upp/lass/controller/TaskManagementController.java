@@ -13,6 +13,9 @@ import org.ftn.upp.lass.dto.response.FormFieldsResponse;
 import org.ftn.upp.lass.dto.response.TaskInfoResponse;
 import org.ftn.upp.lass.exception.BadRequestException;
 import org.ftn.upp.lass.exception.BadRequestResponseCode;
+import org.ftn.upp.lass.exception.InternalServerException;
+import org.ftn.upp.lass.repository.UserRepository;
+import org.ftn.upp.lass.security.JwtTokenDetailsUtil;
 import org.ftn.upp.lass.util.ErrorMessageUtil;
 import org.ftn.upp.lass.util.ExceptionUtils;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,7 @@ public class TaskManagementController {
 
     private final TaskService taskService;
     private final FormService formService;
+    private final UserRepository userRepository;
 
     @GetMapping(RestApiEndpoints.CLAIM_TASK)
     @ResponseBody
@@ -35,15 +39,25 @@ public class TaskManagementController {
     public TaskInfoResponse claimTask(@RequestParam(RestApiRequestParameters.TASK_ID) @NotBlank String taskId) {
         log.info(LogMessages.ASSIGNING_TASK_TO_CURRENT_USER, taskId);
 
-        final var taskToBeClaimed = this.getTask(taskId);
-        // TODO (fivkovic): Assign task to the currently active user.
-        this.taskService.saveTask(taskToBeClaimed);
+        final var currentUserUsername = JwtTokenDetailsUtil.getCurrentUserUsername();
+        final var userOptional = this.userRepository.findUserByUsername(currentUserUsername);
+        ExceptionUtils.throwBadRequestExceptionIf(userOptional.isEmpty(), BadRequestResponseCode.INVALID_REQUEST_DATA, ErrorMessageUtil.userDoesNotExist(currentUserUsername));
 
-        log.info(LogMessages.ASSIGNED_TASK_TO_CURRENT_USER, taskId, "USER_ID");
-        return TaskInfoResponse.builder()
-                .processInstanceId(taskToBeClaimed.getProcessInstanceId())
-                .taskId(taskToBeClaimed.getId())
-                .build();
+        final var taskToBeClaimed = this.getTask(taskId);
+        if (userOptional.isPresent()) {
+            final var user = userOptional.get();
+            taskToBeClaimed.setAssignee(user.getUsername());
+            this.taskService.saveTask(taskToBeClaimed);
+
+            log.info(LogMessages.ASSIGNED_TASK_TO_CURRENT_USER, taskId, user.getUsername());
+            return TaskInfoResponse.builder()
+                    .processInstanceId(taskToBeClaimed.getProcessInstanceId())
+                    .taskId(taskToBeClaimed.getId())
+                    .build();
+        }
+        else {
+            throw new InternalServerException();
+        }
     }
 
     @GetMapping(RestApiEndpoints.CURRENTLY_ACTIVE_TASK_FORM)
