@@ -8,6 +8,7 @@ import org.ftn.upp.lass.dto.request.FormSubmissionField;
 import org.ftn.upp.lass.dto.request.FormSubmissionRequest;
 import org.ftn.upp.lass.exception.BadRequestException;
 import org.ftn.upp.lass.exception.BadRequestResponseCode;
+import org.ftn.upp.lass.security.JwtTokenDetailsUtil;
 import org.ftn.upp.lass.service.FormManagementService;
 import org.ftn.upp.lass.util.ErrorMessageUtil;
 import org.ftn.upp.lass.util.ExceptionUtils;
@@ -30,7 +31,7 @@ public class FormManagementServiceImpl implements FormManagementService {
         final var task = this.taskService.createTaskQuery().taskId(formSubmissionRequest.getTaskId()).singleResult();
         ExceptionUtils.throwBadRequestExceptionIf(task.isSuspended(), BadRequestResponseCode.INVALID_DATA, ErrorMessageUtil.taskIsNotActive(task.getId()));
         ExceptionUtils.throwBadRequestExceptionIf(task.getAssignee() == null, BadRequestResponseCode.INVALID_DATA, ErrorMessageUtil.taskIsNotAssigned(task.getId()));
-        // TODO (ktukelic): Guards for form submission permissions
+        ExceptionUtils.throwInsufficientPrivilegesExceptionIf(!task.getAssignee().equals(JwtTokenDetailsUtil.getCurrentUserUsername()));
 
         final var processInstanceId = task.getProcessInstanceId();
         try {
