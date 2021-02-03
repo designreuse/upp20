@@ -5,6 +5,8 @@ public final class LogMessages {
     private LogMessages() { }
 
     public static final String EXCEPTION = "EXCEPTION: {}";
+    public static final String EXECUTE = "EXECUTE: {}";
+    public static final String FINISHED = "FINISHED: {}";
 
     public static final String STARTING_PROCESS = "Starting process instance of process {}.";
     public static final String PROCESS_STARTED = "Started process instance {} of process {}.";
