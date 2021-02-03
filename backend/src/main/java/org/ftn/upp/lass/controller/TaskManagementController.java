@@ -40,6 +40,7 @@ public class TaskManagementController {
     @ResponseStatus(HttpStatus.OK)
     public TaskInfoResponse claimTask(@RequestParam(RestApiRequestParameters.TASK_ID) @NotBlank String taskId) {
         log.info(LogMessages.ASSIGNING_TASK_TO_CURRENT_USER, taskId);
+        ExceptionUtils.throwInsufficientPrivilegesExceptionIf(JwtTokenDetailsUtil.isAnonymousUserAuthenticationToken());
 
         final var currentUserUsername = JwtTokenDetailsUtil.getCurrentUserUsername();
         final var userOptional = this.userRepository.findUserByUsername(currentUserUsername);
@@ -77,10 +78,9 @@ public class TaskManagementController {
         } catch (ProcessEngineException e) {
             throw new BadRequestException(BadRequestResponseCode.INVALID_REQUEST_DATA, ErrorMessageUtil.activeTaskForProcessInstanceNotFound(processInstanceId));
         }
-        ExceptionUtils.throwBadRequestExceptionIf(
-                currentlyActiveTask == null,
-                BadRequestResponseCode.INVALID_REQUEST_DATA,
+        ExceptionUtils.throwBadRequestExceptionIf(currentlyActiveTask == null, BadRequestResponseCode.INVALID_REQUEST_DATA,
                 ErrorMessageUtil.activeTaskForProcessInstanceNotFound(processInstanceId));
+        ExceptionUtils.throwInsufficientPrivilegesExceptionIf(currentlyActiveTask.getAssignee() != null && JwtTokenDetailsUtil.isAnonymousUserAuthenticationToken());
 
         final var formFields = this.formService.getTaskFormData(currentlyActiveTask.getId()).getFormFields();
 
@@ -99,6 +99,9 @@ public class TaskManagementController {
         log.info(LogMessages.RETRIEVEING_TASK_FORM, taskId);
 
         final var requestedTask = this.getTask(taskId);
+        ExceptionUtils.throwBadRequestExceptionIf(requestedTask.isSuspended(), BadRequestResponseCode.INVALID_REQUEST_DATA, ErrorMessageUtil.taskIsNotActive(taskId));
+        ExceptionUtils.throwInsufficientPrivilegesExceptionIf(requestedTask.getAssignee() != null && JwtTokenDetailsUtil.isAnonymousUserAuthenticationToken());
+
         final var formFields = this.formService.getTaskFormData(taskId).getFormFields();
 
         log.info(LogMessages.RETRIEVED_TASK_FORM, taskId, requestedTask.getProcessInstanceId());
@@ -109,7 +112,7 @@ public class TaskManagementController {
                 .build();
     }
 
-    private Task getTask(@NotBlank String taskId) throws BadRequestException {
+    private Task getTask(@NotBlank String taskId) {
         final Task requestedTask;
         try {
             requestedTask = this.taskService.createTaskQuery().taskId(taskId).singleResult();

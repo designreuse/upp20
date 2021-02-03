@@ -2,7 +2,6 @@ package org.ftn.upp.lass.exception.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.ftn.upp.lass.common.LogMessages;
-import org.ftn.upp.lass.common.api.RestApiResponseParameters;
 import org.ftn.upp.lass.exception.BadRequestException;
 import org.ftn.upp.lass.exception.InsufficientPrivilegesException;
 import org.ftn.upp.lass.exception.NotFoundException;

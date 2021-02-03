@@ -7,6 +7,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.ftn.upp.lass.common.Constants;
 import org.ftn.upp.lass.common.LogMessages;
+import org.ftn.upp.lass.exception.NotFoundException;
 import org.ftn.upp.lass.model.*;
 import org.ftn.upp.lass.repository.BetaAccessReaderRepository;
 import org.ftn.upp.lass.repository.GenreRepository;
@@ -14,10 +15,10 @@ import org.ftn.upp.lass.repository.ReaderRepository;
 import org.ftn.upp.lass.repository.UserRepository;
 import org.ftn.upp.lass.service.CamundaIdentityService;
 import org.ftn.upp.lass.util.FormSubmissionUtils;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,26 +43,26 @@ public class CreateReaderAccount implements JavaDelegate {
         final var isBetaAccessRequested= Boolean.parseBoolean((String)userDataFormSubmissionFields.get(Constants.FormFieldVariables.IS_BETA_ACCESS_REQUESTED));
         if (isBetaAccessRequested) {
             final var betaAccessGenresFormSubmissionFields= FormSubmissionUtils.extractFormSubmissionFields(execution.getVariable(Constants.FormDataVariables.BETA_ACCESS_GENRES_FORM));
-            var betaAccessReader= this.extractBetaAccessReader(userDataFormSubmissionFields, betaAccessGenresFormSubmissionFields);
+            final var betaAccessReader= this.extractBetaAccessReader(userDataFormSubmissionFields, betaAccessGenresFormSubmissionFields);
 
             if (userRepository.existsUserByUsername(betaAccessReader.getUsername())) {
-                throw new BpmnError("ERR_001", "Username already taken.");
+                throw new BpmnError("ERR_001", MessageFormat.format("Username {0} already taken.", betaAccessReader.getUsername()));
             }
             if (userRepository.existsUserByEmail(betaAccessReader.getEmail())) {
-                throw new BpmnError("ERR_001", "Email already taken.");
+                throw new BpmnError("ERR_001", MessageFormat.format("Email {0} already taken.", betaAccessReader.getUsername()));
             }
 
             this.betaAccessReaderRepository.save(betaAccessReader);
             this.camundaIdentityService.addUser(betaAccessReader);
             execution.setVariable(Constants.ProcessVariables.REGISTERED_READER, betaAccessReader);
         } else {
-            var reader= this.extractReader(userDataFormSubmissionFields);
+            final var reader= this.extractReader(userDataFormSubmissionFields);
 
             if (userRepository.existsUserByUsername(reader.getUsername())) {
-                throw new BpmnError("ERR_001", "Username already taken.");
+                throw new BpmnError("ERR_001", MessageFormat.format("Username {0} already taken.", reader.getUsername()));
             }
             if (userRepository.existsUserByEmail(reader.getEmail())) {
-                throw new BpmnError("ERR_001", "Email already taken.");
+                throw new BpmnError("ERR_001", MessageFormat.format("Email {0} already taken.", reader.getUsername()));
             }
 
             this.readerRepository.save(reader);
@@ -139,7 +140,7 @@ public class CreateReaderAccount implements JavaDelegate {
     private Set<Genre> extractGenres(List<String> genreIdsStrings) {
         return genreIdsStrings.stream()
                 .map(genreIdString -> this.genreRepository.findById(Long.valueOf(genreIdString))
-                        .orElseThrow(() -> new ResourceNotFoundException("Genre not found."))
+                        .orElseThrow(() -> new NotFoundException(MessageFormat.format("Genre with ID {0} not found.", genreIdString)))
                 ).collect(Collectors.toSet());
     }
 }
