@@ -1,9 +1,7 @@
 package org.ftn.upp.lass.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -16,6 +14,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public abstract class User extends AbstractBaseEntity {
 
     @Column(nullable = false)
@@ -42,13 +41,14 @@ public abstract class User extends AbstractBaseEntity {
     private String password;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isVerified = false;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "verification_code_id", referencedColumnName = "id")
     private VerificationCode verificationCode;
 }

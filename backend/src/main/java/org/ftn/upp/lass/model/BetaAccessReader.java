@@ -1,22 +1,25 @@
 package org.ftn.upp.lass.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@DiscriminatorValue("BETA_ACCESS_READER")
+@Table(name = "users_beta_access_readers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public class BetaAccessReader extends Reader {
 
     @Column(nullable = false)
     @Setter(AccessLevel.NONE)
-    private Integer penaltyPointsCount;
+    @Builder.Default
+    private Integer penaltyPointsCount = 0;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

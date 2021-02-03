@@ -1,6 +1,8 @@
 package org.ftn.upp.lass.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +13,8 @@ import java.io.Serializable;
  */
 @MappedSuperclass
 @Getter
+@NoArgsConstructor
+@SuperBuilder
 public abstract class AbstractBaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

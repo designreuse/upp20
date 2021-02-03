@@ -1,6 +1,7 @@
 package org.ftn.upp.lass.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DiscriminatorOptions;
 
 import javax.persistence.*;
@@ -9,19 +10,16 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users_readers")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "reader_type", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("READER")
-@DiscriminatorOptions(force = true)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class Reader extends User {
 
     @Column(nullable = false)
-    private final Boolean hasRequestedBetaAccess = true;
+    @Builder.Default
+    private Boolean hasRequestedBetaAccess = false;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
