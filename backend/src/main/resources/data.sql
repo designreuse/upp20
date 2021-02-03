@@ -1,3 +1,7 @@
+DELETE FROM literary_association_db.users_readers ^;
+DELETE FROM literary_association_db.users_beta_access_readers ^;
+DELETE FROM literary_association_db.reader_favorite_genres ^;
+DELETE FROM literary_association_db.reader_beta_access_genres ^;
 DELETE FROM literary_association_db.genres ^;
 INSERT INTO literary_association_db.genres (id, name)
 VALUES
