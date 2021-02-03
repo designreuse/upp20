@@ -39,7 +39,7 @@
                                 <tr>
                                     <td style="text-align:left;padding:0px 20px 20px">
                                         <span style="font-family:Helvetica Neue,Arial,sans-serif;font-size:15px;line-height:22px;font-weight:normal;color:#666666">
-                                            You've successfully signed up for LASS. We just need to verify the email address associated with your account before you can start using all the awesome features. To verify your email address, click the following link in the next 7 days:
+                                            You've successfully signed up for LASS. We just need to verify the email address associated with your account before you can start using all the awesome features. To verify your email address, click the following link in the next 24 hours:
                                         </span>
                                     </td>
                                 </tr>
@@ -50,7 +50,7 @@
                                             <tr>
                                                 <td>
                                                     <a style="white-space:nowrap;display:block;padding:10px 25px;background:#30aeb9;color:#ffffff;font-family:Helvetica Neue,Arial,sans-serif;font-size:15px;line-height:15px;font-weight:bold;text-decoration:none;border-collapse:collapse;border-color:#82a313;border-style:1px solid;border-radius:3px"
-                                                       th:href="@{'http://localhost:8080/api/users/verify/'+${code}}" target="_blank">
+                                                       th:href="@{'http://localhost:8081/api/v1/user/verify-account?verification_code='+${code}+'&process_instance_id='+${pid}}" target="_blank">
                                                         Confirm my email
                                                     </a>
                                                 </td>

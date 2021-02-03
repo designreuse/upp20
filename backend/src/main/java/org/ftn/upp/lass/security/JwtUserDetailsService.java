@@ -1,12 +1,13 @@
 package org.ftn.upp.lass.security;
 
 import lombok.RequiredArgsConstructor;
+import org.ftn.upp.lass.exception.BadRequestException;
+import org.ftn.upp.lass.exception.BadRequestResponseCode;
 import org.ftn.upp.lass.repository.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -16,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
 
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     @Override
@@ -31,7 +31,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             return new JwtUser(
                     user.getId(),
                     username,
-                    this.passwordEncoder.encode(user.getPassword()),
+                    user.getPassword(),
                     true,
                     true,
                     true,

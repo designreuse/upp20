@@ -24,4 +24,14 @@ public class VerificationCode extends AbstractBaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private VerificationCodeStatus status;
+
+    @Transient
+    public boolean isUsed() {
+        return this.status.equals(VerificationCodeStatus.USED);
+    }
+
+    @Transient
+    public boolean hasExpired() {
+        return this.status.equals(VerificationCodeStatus.EXPIRED);
+    }
 }

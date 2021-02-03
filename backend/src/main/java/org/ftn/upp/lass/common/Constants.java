@@ -46,4 +46,11 @@ public final class Constants {
         public static final String IS_BETA_ACCESS_REQUESTED = "isBetaAccessRequested";
         public static final String BETA_ACCESS_GENRES = "betaAccessGenres";
     }
+
+    public static final class ProcessConstants {
+
+        private ProcessConstants() { }
+
+        public static final String USER_ACCOUNT_VERIFIED_MESSAGE = "UserAccountVerifiedMessage";
+    }
 }

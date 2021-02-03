@@ -50,8 +50,8 @@ public class EmailNotificationServiceImpl implements NotificationService {
      * @throws MessagingException Exception thrown in case an error on the SMTP server occurs
      */
     @Async
-    public void sendVerificationEmail(User recipientUser) throws MessagingException {
-        this.sendEmail(recipientUser.getEmail(), "LASS Verification - Please confirm your account", this.generateVerificationMail(recipientUser));
+    public void sendVerificationEmail(User recipientUser, String processInstanceId) throws MessagingException {
+        this.sendEmail(recipientUser.getEmail(), "LASS Verification - Please confirm your account", this.generateVerificationMail(recipientUser, processInstanceId));
     }
 
     /**
@@ -140,12 +140,14 @@ public class EmailNotificationServiceImpl implements NotificationService {
      * Generates verification e-mail content using a template, based on the user's info.
      *
      * @param recipientUser {@link User} instance as recipient, used to fill template data
+     * @param processInstanceId unique identifier of the process instance
      * @return Verification email HTML content
      */
-    private String generateVerificationMail(User recipientUser) {
+    private String generateVerificationMail(User recipientUser, String processInstanceId) {
         Map<String, Object> variables = new HashMap<>();
         variables.put("recipient", recipientUser.getFirstName());
         variables.put("code", recipientUser.getVerificationCode().getValue());
+        variables.put("pid", processInstanceId);
 
         return this.springTemplateEngine
                 .process(this.verificationTemplateName, new Context(Locale.getDefault(), variables));

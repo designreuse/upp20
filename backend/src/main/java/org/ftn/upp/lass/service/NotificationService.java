@@ -9,5 +9,5 @@ import javax.mail.MessagingException;
  */
 public interface NotificationService {
 
-     void sendVerificationEmail(User recipientUser) throws MessagingException;
+     void sendVerificationEmail(User recipientUser, String processInstanceId) throws MessagingException;
 }

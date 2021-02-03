@@ -12,6 +12,9 @@ public final class RestApiEndpoints {
     public static final String AUTH = API_ROOT + "/auth";
     public static final String LOG_IN = "/log-in";
 
+    public static final String USER = API_ROOT + "/user";
+    public static final String VERIFY_ACCOUNT = "/verify-account";
+
     public static final String PROCESS_MANAGEMENT = API_ROOT + "/process-management";
     public static final String START_PROCESS_INSTANCE = "/start-process";
 

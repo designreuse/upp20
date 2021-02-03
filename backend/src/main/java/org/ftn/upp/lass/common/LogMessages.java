@@ -24,4 +24,6 @@ public final class LogMessages {
     public static final String POPULATED_FORM_WITH_GENRES = "Populated form of task {} with genres.";
     public static final String ADDING_USER_TO_CAMUNDA = "Adding user {} to Camunda Engine.";
     public static final String ADDED_USER_TO_CAMUNDA = "User {} added to Camunda Engine.";
+    public static final String VERIFYING_ACCOUNT = "Verifying account associated with {} verification code as part of {} process.";
+    public static final String VERIFIED_ACCOUNT = "Successfully verified account associated with {} verification code as part of {} process.";
 }

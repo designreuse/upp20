@@ -28,6 +28,18 @@ public final class ErrorMessageUtil {
     }
 
     public static String userDoesNotExist(String username) {
-        return String.format("User with username {} was not found.", username);
+        return String.format("User with username %s was not found.", username);
+    }
+
+    public static String verificationCodeDoesNotExist(String verificationCode) {
+        return String.format("Verification code %s was not found.", verificationCode);
+    }
+
+    public static String verificationCodeAlreadyUsed(String verificationCode) {
+        return String.format("Verification code %s already used.", verificationCode);
+    }
+
+    public static String verificationCodeExpired(String verificationCode) {
+        return String.format("Verification code %s expired.", verificationCode);
     }
 }

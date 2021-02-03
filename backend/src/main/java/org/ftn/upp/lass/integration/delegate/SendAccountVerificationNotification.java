@@ -23,8 +23,8 @@ public class SendAccountVerificationNotification implements JavaDelegate {
     public void execute(DelegateExecution execution) throws Exception {
         log.info(LogMessages.EXECUTE, SendAccountVerificationNotification.class.getName());
 
-        User user = (User) execution.getVariable(Constants.ProcessVariables.REGISTERED_READER);
-        this.notificationService.sendVerificationEmail(user);
+        final var user = (User) execution.getVariable(Constants.ProcessVariables.REGISTERED_READER);
+        this.notificationService.sendVerificationEmail(user, execution.getProcessInstanceId());
 
         log.info(LogMessages.FINISHED, SendAccountVerificationNotification.class.getName());
     }

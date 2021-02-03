@@ -3,6 +3,9 @@ package org.ftn.upp.lass.security;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ftn.upp.lass.common.api.RestApiEndpoints;
+import org.ftn.upp.lass.exception.BadRequestException;
+import org.ftn.upp.lass.exception.BadRequestResponseCode;
+import org.ftn.upp.lass.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +23,7 @@ public class JwtAuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtils jwtTokenUtils;
     private final JwtUserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
     @PostMapping(RestApiEndpoints.LOG_IN)
     @ResponseBody
@@ -27,9 +31,12 @@ public class JwtAuthenticationController {
     public JwtResponse createAuthenticationToken(@Valid @RequestBody JwtRequest authenticationRequest) {
         this.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final JwtUser userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String token = this.jwtTokenUtils.generateToken(userDetails);
+        final var user = this.userRepository.findUserByUsername(authenticationRequest.getUsername());
+        if (!user.get().getIsVerified()) {
+            throw new BadRequestException(BadRequestResponseCode.INVALID_REQUEST_DATA, "User account not verified");
+        }
 
-        return new JwtResponse(token);
+        return new JwtResponse(this.jwtTokenUtils.generateToken(userDetails));
     }
 
     private void authenticate(String username, String password) {
