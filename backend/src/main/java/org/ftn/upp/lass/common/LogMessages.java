@@ -20,5 +20,6 @@ public final class LogMessages {
     public static final String STORED_AVAILABLE_GENRES = "Stored available genres as process variable {} of process instance {}.";
     public static final String POPULATING_FORM_WITH_GENRES = "Populating form of task {} with genres.";
     public static final String POPULATED_FORM_WITH_GENRES = "Populated form of task {} with genres.";
-
+    public static final String ADDING_USER_TO_CAMUNDA = "Adding user {} to Camunda Engine.";
+    public static final String ADDED_USER_TO_CAMUNDA = "User {} added to Camunda Engine.";
 }
