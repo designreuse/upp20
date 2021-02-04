@@ -51,6 +51,9 @@ public final class Constants {
 
         private ProcessConstants() { }
 
+        public static final String REGISTER_READER_PROCESS_ID = "RegisterReaderProcess";
+
         public static final String USER_ACCOUNT_VERIFIED_MESSAGE = "UserAccountVerifiedMessage";
+        public static final String RESEND_VERIFICATION_EMAIL_MESSAGE = "ReSendVerificationEmailMessage";
     }
 }

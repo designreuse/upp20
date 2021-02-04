@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1l00b5c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
   <bpmn:process id="RegisterReaderProcess" name="Register Reader Process" isExecutable="true">
-    <bpmn:subProcess id="Activity_0ltba93">
+    <bpmn:subProcess id="ReaderRegistrationActivity" name="Reader registration">
       <bpmn:incoming>StartMainProcessBranch</bpmn:incoming>
       <bpmn:outgoing>EndSubProcessBranch1</bpmn:outgoing>
       <bpmn:startEvent id="ReaderRegistrationStartEvent" name="Reader registration start">
@@ -152,9 +152,6 @@
         <bpmn:incoming>ServiceTaskBranch1</bpmn:incoming>
         <bpmn:outgoing>UserAccountActivationEventGatewayInputBranch</bpmn:outgoing>
       </bpmn:serviceTask>
-      <bpmn:endEvent id="ReaderRegistrationEndEvent" name="Reader registration end">
-        <bpmn:incoming>EndProcessBranch</bpmn:incoming>
-      </bpmn:endEvent>
       <bpmn:exclusiveGateway id="EndProcessGatewayJoin">
         <bpmn:incoming>EndProcessGatewayJoinBranch1</bpmn:incoming>
         <bpmn:incoming>EndProcessGatewayJoinBranch2</bpmn:incoming>
@@ -187,7 +184,7 @@
       </bpmn:serviceTask>
       <bpmn:boundaryEvent id="ValidationFailedInterruptingErrorBoundaryEvent" name="Validation Error" attachedToRef="ValidateAndCreateReaderServiceTask">
         <bpmn:outgoing>ValidationFailedBranch</bpmn:outgoing>
-        <bpmn:errorEventDefinition id="ErrorEventDefinition_0v1w98k" />
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_0v1w98k" errorRef="Error_19qa1qa" camunda:errorCodeVariable="errorCode" />
       </bpmn:boundaryEvent>
       <bpmn:sequenceFlow id="ValidationFailedBranch" name="Validation failed" sourceRef="ValidationFailedInterruptingErrorBoundaryEvent" targetRef="EnterUserDataUserTask" />
       <bpmn:sequenceFlow id="BetaAccessRequestedExclusiveGatewayInputBranch" sourceRef="EnterUserDataUserTask" targetRef="BetaAccessRequestedExclusiveGateway" />
@@ -207,6 +204,10 @@
       <bpmn:sequenceFlow id="VerificationTokenExpiredTimerEventOutputBranch" sourceRef="VerificationTokenExpiredTimerEvent" targetRef="Activity_1bur4mp" />
       <bpmn:sequenceFlow id="UserAccountVerifiedMessageEventOutputBranch" sourceRef="UserAccountVerifiedMessageEvent" targetRef="Activity_0erpibc" />
       <bpmn:sequenceFlow id="StartProcessBranch" sourceRef="ReaderRegistrationStartEvent" targetRef="EnterUserDataUserTask" />
+      <bpmn:endEvent id="ReaderRegistrationEndEvent" name="Reader registration end">
+        <bpmn:incoming>EndProcessBranch</bpmn:incoming>
+        <bpmn:terminateEventDefinition id="TerminateEventDefinition_0508ntc" />
+      </bpmn:endEvent>
     </bpmn:subProcess>
     <bpmn:endEvent id="RegularReaderRegistrationEndEvent">
       <bpmn:incoming>EndSubProcessBranch1</bpmn:incoming>
@@ -214,22 +215,44 @@
     <bpmn:startEvent id="ReaderRegistrationMainStartEvent">
       <bpmn:outgoing>StartMainProcessBranch</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:endEvent id="ProcessDurationLimitExceededReaderRegistrationEndEvent">
-      <bpmn:incoming>EndSubProcessBranch2</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:sequenceFlow id="EndSubProcessBranch1" sourceRef="Activity_0ltba93" targetRef="RegularReaderRegistrationEndEvent" />
-    <bpmn:sequenceFlow id="StartMainProcessBranch" sourceRef="ReaderRegistrationMainStartEvent" targetRef="Activity_0ltba93" />
+    <bpmn:sequenceFlow id="EndSubProcessBranch1" sourceRef="ReaderRegistrationActivity" targetRef="RegularReaderRegistrationEndEvent" />
+    <bpmn:sequenceFlow id="StartMainProcessBranch" sourceRef="ReaderRegistrationMainStartEvent" targetRef="ReaderRegistrationActivity" />
     <bpmn:sequenceFlow id="EndSubProcessBranch2" sourceRef="ProcessDurationLimitExceededEvent" targetRef="ProcessDurationLimitExceededReaderRegistrationEndEvent" />
-    <bpmn:boundaryEvent id="ProcessDurationLimitExceededEvent" name="Process duration limit exceeded" attachedToRef="Activity_0ltba93">
+    <bpmn:boundaryEvent id="ProcessDurationLimitExceededEvent" name="Process duration limit exceeded (48h)" attachedToRef="ReaderRegistrationActivity">
       <bpmn:outgoing>EndSubProcessBranch2</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_12fimt6">
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT48H</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
+    <bpmn:endEvent id="ProcessDurationLimitExceededReaderRegistrationEndEvent">
+      <bpmn:incoming>EndSubProcessBranch2</bpmn:incoming>
+      <bpmn:terminateEventDefinition id="TerminateEventDefinition_05xa6pn" />
+    </bpmn:endEvent>
+    <bpmn:subProcess id="ReSendAccountVerificationEmailActivity" triggeredByEvent="true">
+      <bpmn:sequenceFlow id="Flow_031oki4" sourceRef="Event_1ckzkf5" targetRef="ReSendAccountVerificationEmailServiceTask" />
+      <bpmn:endEvent id="VerificationEmailSentEndEvent" name="Verification email sent">
+        <bpmn:incoming>Flow_1fpfm2y</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_1fpfm2y" sourceRef="ReSendAccountVerificationEmailServiceTask" targetRef="VerificationEmailSentEndEvent" />
+      <bpmn:startEvent id="Event_1ckzkf5" name="Requested verification e-mail" isInterrupting="false">
+        <bpmn:outgoing>Flow_031oki4</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_0633btn" messageRef="Message_1ugqxrm" />
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="ReSendAccountVerificationEmailServiceTask" name="Re-send account verification email" camunda:class="org.ftn.upp.lass.integration.delegate.SendAccountVerificationNotification">
+        <bpmn:incoming>Flow_031oki4</bpmn:incoming>
+        <bpmn:outgoing>Flow_1fpfm2y</bpmn:outgoing>
+      </bpmn:serviceTask>
+    </bpmn:subProcess>
   </bpmn:process>
   <bpmn:message id="Message_021z1yd" name="UserAccountVerifiedMessage" />
+  <bpmn:message id="Message_1ugqxrm" name="ReSendVerificationEmailMessage" />
+  <bpmn:error id="Error_19qa1qa" name="ValidationFailedInterruptingError" errorCode="ERR_001" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="RegisterReaderProcess">
+      <bpmndi:BPMNEdge id="Flow_1veu969_di" bpmnElement="EndSubProcessBranch2">
+        <di:waypoint x="272" y="500" />
+        <di:waypoint x="188" y="500" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0addz16_di" bpmnElement="StartMainProcessBranch">
         <di:waypoint x="188" y="290" />
         <di:waypoint x="290" y="290" />
@@ -238,21 +261,11 @@
         <di:waypoint x="290" y="430" />
         <di:waypoint x="188" y="430" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1veu969_di" bpmnElement="EndSubProcessBranch2">
-        <di:waypoint x="272" y="500" />
-        <di:waypoint x="188" y="500" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_0utwff4_di" bpmnElement="ReaderRegistrationMainStartEvent">
-        <dc:Bounds x="152" y="272" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1l62ryd_di" bpmnElement="RegularReaderRegistrationEndEvent">
-        <dc:Bounds x="152" y="412" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1pinkpp_di" bpmnElement="ProcessDurationLimitExceededReaderRegistrationEndEvent">
+      <bpmndi:BPMNShape id="Event_08y6m9w_di" bpmnElement="ProcessDurationLimitExceededReaderRegistrationEndEvent">
         <dc:Bounds x="152" y="482" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ltba93_di" bpmnElement="Activity_0ltba93" isExpanded="true">
-        <dc:Bounds x="290" y="80" width="860" height="530" />
+      <bpmndi:BPMNShape id="Activity_0ltba93_di" bpmnElement="ReaderRegistrationActivity" isExpanded="true">
+        <dc:Bounds x="290" y="50" width="860" height="560" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_05lw1u7_di" bpmnElement="StartProcessBranch">
         <di:waypoint x="475" y="290" />
@@ -365,12 +378,6 @@
       <bpmndi:BPMNShape id="Activity_0a6vha5_di" bpmnElement="SendAccountVerificationEmailServiceTask">
         <dc:Bounds x="1010" y="433" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0uz0vwj_di" bpmnElement="ReaderRegistrationEndEvent">
-        <dc:Bounds x="439" y="455" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="421" y="498" width="76" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_002owlt_di" bpmnElement="EndProcessGatewayJoin" isMarkerVisible="true">
         <dc:Bounds x="545" y="448" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -398,16 +405,54 @@
       <bpmndi:BPMNShape id="Activity_1mi3hxn_di" bpmnElement="Activity_0erpibc">
         <dc:Bounds x="670" y="493" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0lcsttg_di" bpmnElement="ReaderRegistrationEndEvent">
+        <dc:Bounds x="439" y="455" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="421" y="498" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0yxrhzr_di" bpmnElement="ValidationFailedInterruptingErrorBoundaryEvent">
         <dc:Bounds x="1042" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1023" y="206" width="76" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1l62ryd_di" bpmnElement="RegularReaderRegistrationEndEvent">
+        <dc:Bounds x="152" y="412" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0utwff4_di" bpmnElement="ReaderRegistrationMainStartEvent">
+        <dc:Bounds x="152" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bclwhe_di" bpmnElement="ReSendAccountVerificationEmailActivity" isExpanded="true">
+        <dc:Bounds x="533" y="640" width="373" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_031oki4_di" bpmnElement="Flow_031oki4">
+        <di:waypoint x="609" y="700" />
+        <di:waypoint x="668" y="700" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fpfm2y_di" bpmnElement="Flow_1fpfm2y">
+        <di:waypoint x="768" y="700" />
+        <di:waypoint x="830" y="700" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1o6mizg_di" bpmnElement="VerificationEmailSentEndEvent">
+        <dc:Bounds x="830" y="682" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="807" y="725" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_05xy6i7_di" bpmnElement="Event_1ckzkf5">
+        <dc:Bounds x="573" y="682" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="550" y="725" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03yqmci_di" bpmnElement="ReSendAccountVerificationEmailServiceTask">
+        <dc:Bounds x="668" y="660" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0kthul5_di" bpmnElement="ProcessDurationLimitExceededEvent">
         <dc:Bounds x="272" y="482" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="317.5" y="486" width="83" height="27" />
+          <dc:Bounds x="319" y="486" width="83" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
