@@ -107,7 +107,7 @@ VALUES
     (57, 'f.ivkovic16+57@gmail.com', 'Editor', TRUE, 'F', '$2a$10$FNxNK9DH1b5Ts2SYw.6n0uwZMm.cwrUpZdykQhRJ4d1WEsNQqeVte', 'EDITOR', 'editor6', 58, 59),
     (60, 'f.ivkovic16+60@gmail.com', 'Editor', TRUE, 'G', '$2a$10$FNxNK9DH1b5Ts2SYw.6n0uwZMm.cwrUpZdykQhRJ4d1WEsNQqeVte', 'EDITOR', 'editor7', 61, 62),
     (63, 'f.ivkovic16+63@gmail.com', 'Editor', TRUE, 'H', '$2a$10$FNxNK9DH1b5Ts2SYw.6n0uwZMm.cwrUpZdykQhRJ4d1WEsNQqeVte', 'EDITOR', 'editor8', 64, 65),
-    (66, 'f.ivkovic16+66@gmail.com', 'Editor', TRUE, 'In-Chief', '$2a$10$FNxNK9DH1b5Ts2SYw.6n0uwZMm.cwrUpZdykQhRJ4d1WEsNQqeVte', 'EDITOR_IN_CHIEF', 'chief_editor', 67, 68) ^;
+    (66, 'f.ivkovic16+66@gmail.com', 'Editor', TRUE, 'In-Chief', '$2a$10$FNxNK9DH1b5Ts2SYw.6n0uwZMm.cwrUpZdykQhRJ4d1WEsNQqeVte', 'EDITOR_IN_CHIEF', 'chiefeditor', 67, 68) ^;
 
 INSERT INTO literary_association_db.users_readers (id, email, first_name, is_verified, last_name, password, role, username, address_id, verification_code_id, has_requested_beta_access, membership_status)
 VALUES
@@ -115,7 +115,7 @@ VALUES
 
 INSERT INTO literary_association_db.users_beta_access_readers (id, email, first_name, is_verified, last_name, password, role, username, address_id, verification_code_id, has_requested_beta_access, membership_status, penalty_points_count)
 VALUES
-    (72, 'f.ivkovic16+72@gmail.com', 'Beta', TRUE, 'Skeet', '$2a$10$FNxNK9DH1b5Ts2SYw.6n0uwZMm.cwrUpZdykQhRJ4d1WEsNQqeVte', 'BETA_ACCESS_READER', 'beta_reader', 73, 74, FALSE, 'ACTIVE', 0) ^;
+    (72, 'f.ivkovic16+72@gmail.com', 'Beta', TRUE, 'Skeet', '$2a$10$FNxNK9DH1b5Ts2SYw.6n0uwZMm.cwrUpZdykQhRJ4d1WEsNQqeVte', 'BETA_ACCESS_READER', 'betareader', 73, 74, FALSE, 'ACTIVE', 0) ^;
 
 INSERT INTO literary_association_db.reader_favorite_genres (reader_id, genre_id)
 VALUES

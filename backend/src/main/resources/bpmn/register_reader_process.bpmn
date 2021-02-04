@@ -46,7 +46,7 @@
               <camunda:properties>
                 <camunda:property id="type" value="text" />
                 <camunda:property id="required" value="required" />
-                <camunda:property id="pattern" value="^[a-zA-Z0-9_]*$" />
+                <camunda:property id="pattern" value="^[a-zA-Z0-9]*$" />
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="required" />
@@ -261,9 +261,6 @@
         <di:waypoint x="290" y="430" />
         <di:waypoint x="188" y="430" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_08y6m9w_di" bpmnElement="ProcessDurationLimitExceededReaderRegistrationEndEvent">
-        <dc:Bounds x="152" y="482" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0ltba93_di" bpmnElement="ReaderRegistrationActivity" isExpanded="true">
         <dc:Bounds x="290" y="50" width="860" height="560" />
       </bpmndi:BPMNShape>
@@ -423,16 +420,19 @@
       <bpmndi:BPMNShape id="Event_0utwff4_di" bpmnElement="ReaderRegistrationMainStartEvent">
         <dc:Bounds x="152" y="272" width="36" height="36" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_08y6m9w_di" bpmnElement="ProcessDurationLimitExceededReaderRegistrationEndEvent">
+        <dc:Bounds x="152" y="482" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0bclwhe_di" bpmnElement="ReSendAccountVerificationEmailActivity" isExpanded="true">
         <dc:Bounds x="533" y="640" width="373" height="120" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_031oki4_di" bpmnElement="Flow_031oki4">
-        <di:waypoint x="609" y="700" />
-        <di:waypoint x="668" y="700" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1fpfm2y_di" bpmnElement="Flow_1fpfm2y">
         <di:waypoint x="768" y="700" />
         <di:waypoint x="830" y="700" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_031oki4_di" bpmnElement="Flow_031oki4">
+        <di:waypoint x="609" y="700" />
+        <di:waypoint x="668" y="700" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_1o6mizg_di" bpmnElement="VerificationEmailSentEndEvent">
         <dc:Bounds x="830" y="682" width="36" height="36" />
