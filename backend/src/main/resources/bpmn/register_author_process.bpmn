@@ -205,13 +205,13 @@
       <bpmn:multiInstanceLoopCharacteristics isSequential="true">
         <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">4</bpmn:loopCardinality>
       </bpmn:multiInstanceLoopCharacteristics>
-      <bpmn:startEvent id="Event_0pxafbj">
+      <bpmn:startEvent id="Event_0pxafbj" name="Membership request review start">
         <bpmn:outgoing>Flow_0whaleh</bpmn:outgoing>
       </bpmn:startEvent>
-      <bpmn:userTask id="Activity_0st0xh1" name="Submit membership request review">
+      <bpmn:userTask id="Activity_0st0xh1" name="Submit membership request review" camunda:assignee="${assignedBoardMember}">
         <bpmn:incoming>Flow_0whaleh</bpmn:incoming>
         <bpmn:outgoing>Flow_0c9zcig</bpmn:outgoing>
-        <bpmn:multiInstanceLoopCharacteristics />
+        <bpmn:multiInstanceLoopCharacteristics camunda:collection="${assignedBoardMembers}" camunda:elementVariable="assignedBoardMember" />
       </bpmn:userTask>
       <bpmn:exclusiveGateway id="Gateway_0i4sqgv" default="Flow_1sc8cry">
         <bpmn:incoming>Flow_0wbtaus</bpmn:incoming>
@@ -235,7 +235,7 @@
       </bpmn:serviceTask>
       <bpmn:sequenceFlow id="Flow_0whaleh" sourceRef="Event_0pxafbj" targetRef="Activity_0st0xh1" />
       <bpmn:sequenceFlow id="Flow_01cmmfm" name="more info &#62;= 1" sourceRef="Gateway_0i4sqgv" targetRef="Gateway_0dpx9nc" />
-      <bpmn:serviceTask id="Activity_1rx4p8n" name="Process all review results">
+      <bpmn:serviceTask id="Activity_1rx4p8n" name="Process all review results" camunda:class="org.ftn.upp.lass.integration.delegate.ProcessMembershipRequestReviewResults">
         <bpmn:incoming>Flow_0c9zcig</bpmn:incoming>
         <bpmn:outgoing>Flow_0wbtaus</bpmn:outgoing>
       </bpmn:serviceTask>
@@ -275,17 +275,21 @@
         <bpmn:escalationEventDefinition id="EscalationEventDefinition_17by7pw" />
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="Flow_1jyhhuy" sourceRef="Event_1che8a7" targetRef="Event_1vzv5yw" />
+      <bpmn:textAnnotation id="TextAnnotation_04e7kg1">
+        <bpmn:text>TODO: Voting form</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:association id="Association_0vr3ztv" sourceRef="Activity_0st0xh1" targetRef="TextAnnotation_04e7kg1" />
     </bpmn:subProcess>
     <bpmn:boundaryEvent id="Event_1cdqr8q" name="Author&#39;s account activated" attachedToRef="AuthorRegistrationActivity">
       <bpmn:outgoing>Flow_0o083io</bpmn:outgoing>
       <bpmn:escalationEventDefinition id="EscalationEventDefinition_1kc6sxc" escalationRef="Escalation_09mbvvd" />
     </bpmn:boundaryEvent>
-    <bpmn:subProcess id="Activity_0s13ov8" name="Initial document submission">
+    <bpmn:subProcess id="Activity_0s13ov8" name="Membership request submission">
       <bpmn:incoming>Flow_0o083io</bpmn:incoming>
-      <bpmn:startEvent id="Event_0f6f2ld">
+      <bpmn:startEvent id="Event_0f6f2ld" name="Membership request submission start">
         <bpmn:outgoing>Flow_0vfx74z</bpmn:outgoing>
       </bpmn:startEvent>
-      <bpmn:userTask id="Activity_0lhytov" name="Submit cover letter" camunda:formKey="coverLetterForm">
+      <bpmn:userTask id="Activity_0lhytov" name="Submit cover letter" camunda:formKey="coverLetterForm" camunda:assignee="${username}">
         <bpmn:extensionElements>
           <camunda:formData>
             <camunda:formField id="coverLetter" label="Cover Letter" type="string">
@@ -308,24 +312,22 @@
         <bpmn:incoming>Flow_0bm1hbh</bpmn:incoming>
         <bpmn:outgoing>Flow_0195cjo</bpmn:outgoing>
       </bpmn:serviceTask>
-      <bpmn:userTask id="Activity_1l31chd" name="Submit document">
+      <bpmn:userTask id="Activity_1l31chd" name="Submit documents" camunda:assignee="${username}">
         <bpmn:incoming>Flow_0n605k7</bpmn:incoming>
         <bpmn:outgoing>Flow_05hcvsu</bpmn:outgoing>
       </bpmn:userTask>
       <bpmn:exclusiveGateway id="Gateway_0sabs5b">
         <bpmn:incoming>Flow_0195cjo</bpmn:incoming>
         <bpmn:incoming>Flow_09nm87x</bpmn:incoming>
-        <bpmn:incoming>Flow_0tv85e8</bpmn:incoming>
         <bpmn:outgoing>Flow_0n605k7</bpmn:outgoing>
       </bpmn:exclusiveGateway>
-      <bpmn:exclusiveGateway id="Gateway_0v35k3k">
+      <bpmn:exclusiveGateway id="Gateway_0v35k3k" default="Flow_1ry0yoi">
         <bpmn:incoming>Flow_05hcvsu</bpmn:incoming>
         <bpmn:outgoing>Flow_09nm87x</bpmn:outgoing>
-        <bpmn:outgoing>Flow_0tv85e8</bpmn:outgoing>
         <bpmn:outgoing>Flow_1ry0yoi</bpmn:outgoing>
       </bpmn:exclusiveGateway>
-      <bpmn:serviceTask id="Activity_0x2d0ap" name="Send notifications to all board members" camunda:class="org.ftn.upp.lass.integration.delegate.SendMembershipRequestNotification">
-        <bpmn:incoming>Flow_1ry0yoi</bpmn:incoming>
+      <bpmn:serviceTask id="Activity_0x2d0ap" name="Send notifications to assigned board members" camunda:class="org.ftn.upp.lass.integration.delegate.SendMembershipRequestNotification">
+        <bpmn:incoming>Flow_16115zc</bpmn:incoming>
         <bpmn:outgoing>Flow_0opuu1f</bpmn:outgoing>
       </bpmn:serviceTask>
       <bpmn:sequenceFlow id="Flow_0vfx74z" sourceRef="Event_0f6f2ld" targetRef="Activity_0lhytov" />
@@ -336,23 +338,22 @@
       <bpmn:sequenceFlow id="Flow_09nm87x" name="submitted doc. count &#60; 2" sourceRef="Gateway_0v35k3k" targetRef="Gateway_0sabs5b">
         <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submittedDocumentsCount &lt; 2}</bpmn:conditionExpression>
       </bpmn:sequenceFlow>
-      <bpmn:sequenceFlow id="Flow_0tv85e8" name="continue submission" sourceRef="Gateway_0v35k3k" targetRef="Gateway_0sabs5b">
-        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submittedDocumentsCount &gt;= 2 &amp;&amp; continueSubmission}</bpmn:conditionExpression>
-      </bpmn:sequenceFlow>
-      <bpmn:sequenceFlow id="Flow_1ry0yoi" sourceRef="Gateway_0v35k3k" targetRef="Activity_0x2d0ap">
-        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submittedDocumentsCount &gt;= 2 &amp;&amp; not continueSubmission}</bpmn:conditionExpression>
-      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="Flow_1ry0yoi" sourceRef="Gateway_0v35k3k" targetRef="Activity_1a7sjyq" />
       <bpmn:sequenceFlow id="Flow_0opuu1f" sourceRef="Activity_0x2d0ap" targetRef="Event_1crnzke" />
       <bpmn:endEvent id="Event_1crnzke" name="Board members notified">
         <bpmn:incoming>Flow_0opuu1f</bpmn:incoming>
         <bpmn:escalationEventDefinition id="EscalationEventDefinition_0wvk5wp" escalationRef="Escalation_0mtdyjd" />
       </bpmn:endEvent>
-      <bpmn:textAnnotation id="TextAnnotation_00awzl0">
-        <bpmn:text>TODO: Assign task to previously created author</bpmn:text>
-      </bpmn:textAnnotation>
-      <bpmn:association id="Association_12g1k3e" sourceRef="Activity_0lhytov" targetRef="TextAnnotation_00awzl0" />
+      <bpmn:sequenceFlow id="Flow_16115zc" sourceRef="Activity_1a7sjyq" targetRef="Activity_0x2d0ap" />
+      <bpmn:serviceTask id="Activity_1a7sjyq" name="Assign board members" camunda:class="org.ftn.upp.lass.integration.delegate.AssignMembershipRequestToBoardMembers">
+        <bpmn:incoming>Flow_1ry0yoi</bpmn:incoming>
+        <bpmn:outgoing>Flow_16115zc</bpmn:outgoing>
+      </bpmn:serviceTask>
       <bpmn:textAnnotation id="TextAnnotation_0nyfxvo">
-        <bpmn:text>TODO: File upload</bpmn:text>
+        <bpmn:text>TODO: File upload, validate if at least 2 files were uploaded.
+
+First perform validation, then upload files, and then submit form at the end.
+On file upload endpoint send the processInstanceId to be able to read the membershipRequestId and assign uploaded files to correct membership request.</bpmn:text>
       </bpmn:textAnnotation>
       <bpmn:association id="Association_00bnunc" sourceRef="Activity_1l31chd" targetRef="TextAnnotation_0nyfxvo" />
     </bpmn:subProcess>
@@ -454,6 +455,10 @@
       <bpmn:timerEventDefinition id="TimerEventDefinition_10u5op1" />
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_1f6b34c" sourceRef="Event_0oer7sj" targetRef="Activity_1rqosen" />
+    <bpmn:textAnnotation id="TextAnnotation_1jmxfin">
+      <bpmn:text>TODO: Store review results after processing as variables to enable escalation events to trigger</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_123kw1v" sourceRef="Activity_1xg5aqf" targetRef="TextAnnotation_1jmxfin" />
   </bpmn:process>
   <bpmn:message id="Message_021z1yd" name="UserAccountVerifiedMessage" />
   <bpmn:message id="Message_1ugqxrm" name="ReSendVerificationEmailMessage" />
@@ -462,6 +467,9 @@
   <bpmn:escalation id="Escalation_0mtdyjd" name="BoardMembersNotifiedEscalation" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="RegisterAuthorProcess">
+      <bpmndi:BPMNShape id="TextAnnotation_1jmxfin_di" bpmnElement="TextAnnotation_1jmxfin" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="1270" y="1270" width="205.68379790940767" height="53.426248548199766" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1f6b34c_di" bpmnElement="Flow_1f6b34c">
         <di:waypoint x="1042" y="2240" />
         <di:waypoint x="852" y="2240" />
@@ -485,7 +493,7 @@
         <di:waypoint x="1235" y="2090" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_10gy0fd_di" bpmnElement="Flow_10gy0fd">
-        <di:waypoint x="720" y="1238" />
+        <di:waypoint x="720" y="1258" />
         <di:waypoint x="720" y="1330" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0fzew81_di" bpmnElement="Flow_0fzew81">
@@ -654,6 +662,9 @@
       <bpmndi:BPMNShape id="Activity_1xg5aqf_di" bpmnElement="Activity_1xg5aqf" isExpanded="true">
         <dc:Bounds x="290" y="1330" width="860" height="620" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_04e7kg1_di" bpmnElement="TextAnnotation_04e7kg1" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="350" y="1389" width="130" height="30" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1jyhhuy_di" bpmnElement="Flow_1jyhhuy">
         <di:waypoint x="870" y="1758" />
         <di:waypoint x="870" y="1862" />
@@ -712,6 +723,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_0pxafbj_di" bpmnElement="Event_0pxafbj">
         <dc:Bounds x="330" y="1482" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="312" y="1525" width="73" height="40" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_03wz2g7_di" bpmnElement="Activity_0st0xh1">
         <dc:Bounds x="440" y="1460" width="100" height="80" />
@@ -767,6 +781,10 @@
           <dc:Bounds x="853" y="1908" width="33" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0vr3ztv_di" bpmnElement="Association_0vr3ztv">
+        <di:waypoint x="456" y="1460" />
+        <di:waypoint x="421" y="1419" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_0v9pl7y_di" bpmnElement="Event_1che8a7">
         <dc:Bounds x="852" y="1722" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -774,32 +792,18 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0s13ov8_di" bpmnElement="Activity_0s13ov8" isExpanded="true">
-        <dc:Bounds x="290" y="830" width="860" height="390" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_00awzl0_di" bpmnElement="TextAnnotation_00awzl0" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="430" y="1080" width="160" height="50" />
+        <dc:Bounds x="290" y="830" width="860" height="410" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0nyfxvo_di" bpmnElement="TextAnnotation_0nyfxvo" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="590" y="1050" width="140" height="30" />
+        <dc:Bounds x="450" y="1030" width="219.98403019744484" height="150.98722415795586" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0opuu1f_di" bpmnElement="Flow_0opuu1f">
-        <di:waypoint x="860" y="1140" />
+        <di:waypoint x="800" y="1140" />
         <di:waypoint x="738" y="1140" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1ry0yoi_di" bpmnElement="Flow_1ry0yoi">
-        <di:waypoint x="1075" y="960" />
-        <di:waypoint x="1110" y="960" />
-        <di:waypoint x="1110" y="1140" />
-        <di:waypoint x="960" y="1140" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0tv85e8_di" bpmnElement="Flow_0tv85e8">
         <di:waypoint x="1050" y="985" />
-        <di:waypoint x="1050" y="1030" />
-        <di:waypoint x="770" y="1030" />
-        <di:waypoint x="770" y="985" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="882" y="1036" width="56" height="27" />
-        </bpmndi:BPMNLabel>
+        <di:waypoint x="1050" y="1100" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_09nm87x_di" bpmnElement="Flow_09nm87x">
         <di:waypoint x="1050" y="935" />
@@ -830,8 +834,15 @@
         <di:waypoint x="368" y="960" />
         <di:waypoint x="430" y="960" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16115zc_di" bpmnElement="Flow_16115zc">
+        <di:waypoint x="1000" y="1140" />
+        <di:waypoint x="900" y="1140" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_0f6f2ld_di" bpmnElement="Event_0f6f2ld">
         <dc:Bounds x="332" y="942" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="310" y="985" width="81" height="40" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1j8vkor_di" bpmnElement="Activity_0lhytov">
         <dc:Bounds x="430" y="920" width="100" height="80" />
@@ -851,22 +862,21 @@
       <bpmndi:BPMNShape id="Gateway_0v35k3k_di" bpmnElement="Gateway_0v35k3k" isMarkerVisible="true">
         <dc:Bounds x="1025" y="935" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1p4hdos_di" bpmnElement="Activity_0x2d0ap">
-        <dc:Bounds x="860" y="1100" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0g6rbzu_di" bpmnElement="Event_1crnzke">
         <dc:Bounds x="702" y="1122" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="681" y="1165" width="79" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_12g1k3e_di" bpmnElement="Association_12g1k3e">
-        <di:waypoint x="498" y="1000" />
-        <di:waypoint x="533" y="1080" />
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1p4hdos_di" bpmnElement="Activity_0x2d0ap">
+        <dc:Bounds x="800" y="1100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bdmc5v_di" bpmnElement="Activity_1a7sjyq">
+        <dc:Bounds x="1000" y="1100" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_00bnunc_di" bpmnElement="Association_00bnunc">
-        <di:waypoint x="860" y="979" />
-        <di:waypoint x="679" y="1050" />
+        <di:waypoint x="860" y="970" />
+        <di:waypoint x="572" y="1030" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_0sumkw6_di" bpmnElement="Event_0kk5qrf">
         <dc:Bounds x="152" y="1122" width="36" height="36" />
@@ -948,6 +958,10 @@
       <bpmndi:BPMNShape id="Event_05b8c6e_di" bpmnElement="Event_05b8c6e">
         <dc:Bounds x="1872" y="2412" width="36" height="36" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_123kw1v_di" bpmnElement="Association_123kw1v">
+        <di:waypoint x="1150" y="1386" />
+        <di:waypoint x="1270" y="1315" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_09lq2mg_di" bpmnElement="Event_0oer7sj">
         <dc:Bounds x="1042" y="2222" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -979,9 +993,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_175d1j1_di" bpmnElement="Event_02dhjwh">
-        <dc:Bounds x="702" y="1202" width="36" height="36" />
+        <dc:Bounds x="702" y="1222" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="620" y="1245" width="79" height="27" />
+          <dc:Bounds x="620" y="1265" width="79" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_14f7dpz_di" bpmnElement="InitialDocumentSubmissionActivityDurationLimitExceededEvent">
