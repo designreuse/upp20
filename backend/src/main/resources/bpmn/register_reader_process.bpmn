@@ -148,7 +148,7 @@
         <bpmn:incoming>BetaAccessRequestedExclusiveGatewayContinueBranch</bpmn:incoming>
         <bpmn:outgoing>ServiceTaskBranch1</bpmn:outgoing>
       </bpmn:serviceTask>
-      <bpmn:serviceTask id="SendAccountVerificationEmailServiceTask" name="Send account verification email" camunda:class="org.ftn.upp.lass.integration.delegate.SendAccountVerificationNotification">
+      <bpmn:serviceTask id="SendAccountVerificationEmailServiceTask" name="Send account verification email" camunda:class="org.ftn.upp.lass.integration.delegate.SendReaderAccountVerificationNotification">
         <bpmn:incoming>ServiceTaskBranch1</bpmn:incoming>
         <bpmn:outgoing>UserAccountActivationEventGatewayInputBranch</bpmn:outgoing>
       </bpmn:serviceTask>
@@ -238,7 +238,7 @@
         <bpmn:outgoing>Flow_031oki4</bpmn:outgoing>
         <bpmn:messageEventDefinition id="MessageEventDefinition_0633btn" messageRef="Message_1ugqxrm" />
       </bpmn:startEvent>
-      <bpmn:serviceTask id="ReSendAccountVerificationEmailServiceTask" name="Re-send account verification email" camunda:class="org.ftn.upp.lass.integration.delegate.SendAccountVerificationNotification">
+      <bpmn:serviceTask id="ReSendAccountVerificationEmailServiceTask" name="Re-send account verification email" camunda:class="org.ftn.upp.lass.integration.delegate.SendReaderAccountVerificationNotification">
         <bpmn:incoming>Flow_031oki4</bpmn:incoming>
         <bpmn:outgoing>Flow_1fpfm2y</bpmn:outgoing>
       </bpmn:serviceTask>

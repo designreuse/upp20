@@ -15,6 +15,8 @@ public final class Constants {
         public static final String FAVORITE_GENRES = "favoriteGenres";
         public static final String BETA_ACCESS_GENRES = "betaAccessGenres";
         public static final String REGISTERED_READER = "registeredReader";
+
+        public static final String REGISTERED_AUTHOR = "registeredAuthor";
     }
 
     public static final class FormDataVariables {

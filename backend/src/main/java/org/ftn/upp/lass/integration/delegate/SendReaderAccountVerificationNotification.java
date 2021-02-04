@@ -15,17 +15,17 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class SendAccountVerificationNotification implements JavaDelegate {
+public class SendReaderAccountVerificationNotification implements JavaDelegate {
 
     private final NotificationService notificationService;
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        log.info(LogMessages.EXECUTE, SendAccountVerificationNotification.class.getName());
+        log.info(LogMessages.EXECUTE, SendReaderAccountVerificationNotification.class.getName());
 
         final var user = (User) execution.getVariable(Constants.ProcessVariables.REGISTERED_READER);
         this.notificationService.sendVerificationEmail(user, execution.getProcessInstanceId());
 
-        log.info(LogMessages.FINISHED, SendAccountVerificationNotification.class.getName());
+        log.info(LogMessages.FINISHED, SendReaderAccountVerificationNotification.class.getName());
     }
 }
