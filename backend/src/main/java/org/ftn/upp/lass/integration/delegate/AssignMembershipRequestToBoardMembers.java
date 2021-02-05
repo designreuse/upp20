@@ -6,6 +6,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.ftn.upp.lass.common.Constants;
 import org.ftn.upp.lass.common.LogMessages;
+import org.ftn.upp.lass.model.BoardMember;
 import org.ftn.upp.lass.model.MembershipRequest;
 import org.ftn.upp.lass.model.MembershipReview;
 import org.ftn.upp.lass.repository.BoardMemberRepository;
@@ -13,6 +14,8 @@ import org.ftn.upp.lass.repository.MembershipRequestRepository;
 import org.ftn.upp.lass.repository.MembershipReviewRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -37,11 +40,12 @@ public class AssignMembershipRequestToBoardMembers implements JavaDelegate {
                         .membershipRequest(membershipRequestOptional.get())
                         .reviewee(boardMember)
                         .build();
-
                 this.membershipReviewRepository.save(membershipReviewResult);
             });
-            execution.setVariable(Constants.ProcessVariables.ASSIGNED_BOARD_MEMBERS, allBoardMembers);
+            final var assignedBoardMemberUsernames = allBoardMembers.stream().map(BoardMember::getUsername).collect(Collectors.toList());
+            execution.setVariable(Constants.ProcessVariables.ASSIGNED_BOARD_MEMBERS, assignedBoardMemberUsernames);
         }
+
         log.info(LogMessages.FINISHED, AssignMembershipRequestToBoardMembers.class.getName());
     }
 }
