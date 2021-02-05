@@ -1,6 +1,7 @@
 package org.ftn.upp.lass.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class Author extends User {
 
     @Column(nullable = false)
@@ -23,7 +24,8 @@ public class Author extends User {
 
     @Column(nullable = false)
     @Min(0) @Max(2)
-    private Integer resubmissionCount;
+    @Builder.Default
+    private Integer resubmissionCount = 0;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MembershipRequest> membershipRequests = new HashSet<>();
