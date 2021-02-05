@@ -1,0 +1,622 @@
+{
+	"info": {
+		"_postman_id": "3d005240-eea8-47a0-8ae5-1d6a773abb11",
+		"name": "LASS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Start RegisterReader process",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"setCurrentProcessInstanceId\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"current_process_instance_id\", jsonData.processInstanceId);\r",
+							"    console.log(jsonData.processInstanceId.value);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/process-management/start-process?process_name=RegisterReaderProcess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"process-management",
+						"start-process"
+					],
+					"query": [
+						{
+							"key": "process_name",
+							"value": "RegisterReaderProcess"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start RegisterAuthor process",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"setCurrentProcessInstanceId\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"current_process_instance_id\", jsonData.processInstanceId);\r",
+							"    console.log(jsonData.processInstanceId.value);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/process-management/start-process?process_name=RegisterAuthorProcess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"process-management",
+						"start-process"
+					],
+					"query": [
+						{
+							"key": "process_name",
+							"value": "RegisterAuthorProcess"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get currently active task form",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"setCurrentTaskId\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"current_task_id\", jsonData.taskId);\r",
+							"    console.log(jsonData.taskId.value);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/task-management/currently-active-task-form?process_instance_id={{current_process_instance_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"task-management",
+						"currently-active-task-form"
+					],
+					"query": [
+						{
+							"key": "process_instance_id",
+							"value": "{{current_process_instance_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get currently active task form as authenticated user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"setCurrentTaskId\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"current_task_id\", jsonData.taskId);\r",
+							"    console.log(jsonData.taskId.value);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/task-management/currently-active-task-form?process_instance_id={{current_process_instance_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"task-management",
+						"currently-active-task-form"
+					],
+					"query": [
+						{
+							"key": "process_instance_id",
+							"value": "{{current_process_instance_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get task form",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"setCurrentTaskId\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"current_task_id\", jsonData.taskId);\r",
+							"    console.log(jsonData.taskId.value);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/task-management/task-form?task_id={{current_task_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"task-management",
+						"task-form"
+					],
+					"query": [
+						{
+							"key": "task_id",
+							"value": "{{current_task_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Claim task",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/task-management/claim-task?task_id={{current_task_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"task-management",
+						"claim-task"
+					],
+					"query": [
+						{
+							"key": "task_id",
+							"value": "{{current_task_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit form",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"taskId\" : \"{{current_task_id}}\",\r\n    \"formSubmissionFields\" : [\r\n        {\r\n            \"id\" : \"firstName\",\r\n            \"value\" : \"Filip\"\r\n        },\r\n        {\r\n            \"id\" : \"lastName\",\r\n            \"value\" : \"Ivkovic\"\r\n        },\r\n        {\r\n            \"id\" : \"email\",\r\n            \"value\" : \"f.ivkovic16+1@gmail.com\"\r\n        },\r\n        {\r\n            \"id\" : \"username\",\r\n            \"value\" : \"fivkovic\"\r\n        },\r\n        {\r\n            \"id\" : \"password\",\r\n            \"value\" : \"123456\"\r\n        },\r\n        {\r\n            \"id\" : \"street\",\r\n            \"value\" : \"Radnicka 23\"\r\n        },\r\n        {\r\n            \"id\" : \"city\",\r\n            \"value\" : \"Novi Sad\"\r\n        },\r\n        {\r\n            \"id\" : \"postalCode\",\r\n            \"value\" : \"21000\"\r\n        },\r\n        {\r\n            \"id\" : \"country\",\r\n            \"value\" : \"Serbia\"\r\n        },\r\n        {\r\n            \"id\" : \"latitude\",\r\n            \"value\" : \"45.267136\"\r\n        },\r\n        {\r\n            \"id\" : \"longitude\",\r\n            \"value\" : \"19.833549\"\r\n        },\r\n        {\r\n            \"id\" : \"isBetaAccessRequested\",\r\n            \"value\" : \"false\"\r\n        },\r\n        {\r\n            \"id\" : \"favoriteGenres\",\r\n            \"value\" : [\"9000\", \"9001\"]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/form-management/submit-form?form_submission_type=userDataForm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"form-management",
+						"submit-form"
+					],
+					"query": [
+						{
+							"key": "form_submission_type",
+							"value": "userDataForm"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit reader registration form",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"taskId\" : \"{{current_task_id}}\",\r\n    \"formSubmissionFields\" : [\r\n        {\r\n            \"id\" : \"firstName\",\r\n            \"value\" : \"Filip\"\r\n        },\r\n        {\r\n            \"id\" : \"lastName\",\r\n            \"value\" : \"Ivkovic\"\r\n        },\r\n        {\r\n            \"id\" : \"email\",\r\n            \"value\" : \"f.ivkovic16+1@gmail.com\"\r\n        },\r\n        {\r\n            \"id\" : \"username\",\r\n            \"value\" : \"fivkovic\"\r\n        },\r\n        {\r\n            \"id\" : \"password\",\r\n            \"value\" : \"123456\"\r\n        },\r\n        {\r\n            \"id\" : \"street\",\r\n            \"value\" : \"Radnicka 23\"\r\n        },\r\n        {\r\n            \"id\" : \"city\",\r\n            \"value\" : \"Novi Sad\"\r\n        },\r\n        {\r\n            \"id\" : \"postalCode\",\r\n            \"value\" : \"21000\"\r\n        },\r\n        {\r\n            \"id\" : \"country\",\r\n            \"value\" : \"Serbia\"\r\n        },\r\n        {\r\n            \"id\" : \"latitude\",\r\n            \"value\" : \"45.267136\"\r\n        },\r\n        {\r\n            \"id\" : \"longitude\",\r\n            \"value\" : \"19.833549\"\r\n        },\r\n        {\r\n            \"id\" : \"isBetaAccessRequested\",\r\n            \"value\" : \"false\"\r\n        },\r\n        {\r\n            \"id\" : \"favoriteGenres\",\r\n            \"value\" : [\"0\", \"1\"]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/form-management/submit-form-without-assignee?form_submission_type=userDataForm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"form-management",
+						"submit-form-without-assignee"
+					],
+					"query": [
+						{
+							"key": "form_submission_type",
+							"value": "userDataForm"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit beta-access reader registration form",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"taskId\" : \"{{current_task_id}}\",\r\n    \"formSubmissionFields\" : [\r\n        {\r\n            \"id\" : \"firstName\",\r\n            \"value\" : \"Katarina\"\r\n        },\r\n        {\r\n            \"id\" : \"lastName\",\r\n            \"value\" : \"Tukelic\"\r\n        },\r\n        {\r\n            \"id\" : \"email\",\r\n            \"value\" : \"f.ivkovic16+2@gmail.com\"\r\n        },\r\n        {\r\n            \"id\" : \"username\",\r\n            \"value\" : \"ktukelic\"\r\n        },\r\n        {\r\n            \"id\" : \"password\",\r\n            \"value\" : \"123456\"\r\n        },\r\n        {\r\n            \"id\" : \"street\",\r\n            \"value\" : \"Mise Dimitrijevica 2\"\r\n        },\r\n        {\r\n            \"id\" : \"city\",\r\n            \"value\" : \"Novi Sad\"\r\n        },\r\n        {\r\n            \"id\" : \"postalCode\",\r\n            \"value\" : \"21000\"\r\n        },\r\n        {\r\n            \"id\" : \"country\",\r\n            \"value\" : \"Serbia\"\r\n        },\r\n        {\r\n            \"id\" : \"latitude\",\r\n            \"value\" : \"45.267136\"\r\n        },\r\n        {\r\n            \"id\" : \"longitude\",\r\n            \"value\" : \"19.833549\"\r\n        },\r\n        {\r\n            \"id\" : \"isBetaAccessRequested\",\r\n            \"value\" : \"true\"\r\n        },\r\n        {\r\n            \"id\" : \"favoriteGenres\",\r\n            \"value\" : [\"0\", \"1\"]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/form-management/submit-form-without-assignee?form_submission_type=userDataForm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"form-management",
+						"submit-form-without-assignee"
+					],
+					"query": [
+						{
+							"key": "form_submission_type",
+							"value": "userDataForm"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit beta-access genres",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"taskId\" : \"{{current_task_id}}\",\r\n    \"formSubmissionFields\" : [\r\n        {\r\n            \"id\" : \"betaAccessGenres\",\r\n            \"value\" : [\"2\", \"3\"]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/form-management/submit-form-without-assignee?form_submission_type=betaAccessGenresForm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"form-management",
+						"submit-form-without-assignee"
+					],
+					"query": [
+						{
+							"key": "form_submission_type",
+							"value": "betaAccessGenresForm"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit author registration form",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"taskId\" : \"{{current_task_id}}\",\r\n    \"formSubmissionFields\" : [\r\n        {\r\n            \"id\" : \"firstName\",\r\n            \"value\" : \"Filip\"\r\n        },\r\n        {\r\n            \"id\" : \"lastName\",\r\n            \"value\" : \"Ivkovic\"\r\n        },\r\n        {\r\n            \"id\" : \"email\",\r\n            \"value\" : \"f.ivkovic16+1@gmail.com\"\r\n        },\r\n        {\r\n            \"id\" : \"username\",\r\n            \"value\" : \"fivkovic\"\r\n        },\r\n        {\r\n            \"id\" : \"password\",\r\n            \"value\" : \"123456\"\r\n        },\r\n        {\r\n            \"id\" : \"street\",\r\n            \"value\" : \"Radnicka 23\"\r\n        },\r\n        {\r\n            \"id\" : \"city\",\r\n            \"value\" : \"Novi Sad\"\r\n        },\r\n        {\r\n            \"id\" : \"postalCode\",\r\n            \"value\" : \"21000\"\r\n        },\r\n        {\r\n            \"id\" : \"country\",\r\n            \"value\" : \"Serbia\"\r\n        },\r\n        {\r\n            \"id\" : \"latitude\",\r\n            \"value\" : \"45.267136\"\r\n        },\r\n        {\r\n            \"id\" : \"longitude\",\r\n            \"value\" : \"19.833549\"\r\n        },\r\n        {\r\n            \"id\" : \"favoriteGenres\",\r\n            \"value\" : [\"0\", \"1\"]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/form-management/submit-form-without-assignee?form_submission_type=userDataForm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"form-management",
+						"submit-form-without-assignee"
+					],
+					"query": [
+						{
+							"key": "form_submission_type",
+							"value": "userDataForm"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit cover letter form",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"taskId\" : \"{{current_task_id}}\",\r\n    \"formSubmissionFields\" : [\r\n        {\r\n            \"id\" : \"coverLetter\",\r\n            \"value\" : \"Hi, I'd like to apply for membership in LASS. :)\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/form-management/submit-form?form_submission_type=userDataForm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"form-management",
+						"submit-form"
+					],
+					"query": [
+						{
+							"key": "form_submission_type",
+							"value": "userDataForm"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit documents form",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{jwt}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"taskId\" : \"{{current_task_id}}\",\r\n    \"formSubmissionFields\" : [\r\n\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/form-management/submit-form?form_submission_type=userDataForm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"form-management",
+						"submit-form"
+					],
+					"query": [
+						{
+							"key": "form_submission_type",
+							"value": "userDataForm"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log In",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"setAuthToken\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(\"jwt\", jsonData.token);\r",
+							"    console.log(jsonData.taskId.value);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\" : \"fivkovic\",\r\n\t\"password\" : \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/auth/log-in",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"log-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\" : \"fivkovic\",\r\n\t\"password\" : \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/auth/verify-account?verification_code=30fbb39d-eedd-4ceb-a718-a50711a334c6&process_instance_id=fa38e06a-6645-11eb-b5cf-1062e59a4b7c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"verify-account"
+					],
+					"query": [
+						{
+							"key": "verification_code",
+							"value": "30fbb39d-eedd-4ceb-a718-a50711a334c6"
+						},
+						{
+							"key": "process_instance_id",
+							"value": "fa38e06a-6645-11eb-b5cf-1062e59a4b7c"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
