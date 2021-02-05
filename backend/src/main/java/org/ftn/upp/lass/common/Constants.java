@@ -19,6 +19,7 @@ public final class Constants {
         public static final String REGISTERED_AUTHOR = "registeredAuthor";
         public static final String CREATED_MEMBERSHIP_REQUEST = "createdMembershipRequest";
         public static final String ASSIGNED_BOARD_MEMBERS = "assignedBoardMembers";
+        public static final String SUBMITTED_DOCUMENTS_COUNT = "submittedDocumentsCount";
     }
 
     public static final class FormDataVariables {
@@ -30,6 +31,7 @@ public final class Constants {
         public static final String USER_DATA_FORM = "userDataForm";
         public static final String BETA_ACCESS_GENRES_FORM = "betaAccessGenresForm";
         public static final String COVER_LETTER_FORM = "coverLetterForm";
+        public static final String DOCUMENTS_FORM = "documentsForm";
     }
 
     public static final class FormFieldVariables {

@@ -3,12 +3,14 @@ package org.ftn.upp.lass.integration.listener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
-import org.camunda.bpm.engine.delegate.TaskListener;
+import org.ftn.upp.lass.common.Constants;
 import org.ftn.upp.lass.common.LogMessages;
+import org.ftn.upp.lass.dto.request.FormSubmissionField;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -20,8 +22,10 @@ public class SetSubmittedDocumentsCount implements ExecutionListener {
     public void notify(DelegateExecution execution) throws Exception {
         log.info(LogMessages.EXECUTE, SetSubmittedDocumentsCount.class.getName());
 
-        // TODO: Implement - for now only mocked to pass, in future retrieve the submitted documents from the form and count them
-        execution.setVariable("submittedDocumentsCount", 2);
+        final var formSubmissionFields = (List<FormSubmissionField>) execution.getVariable(Constants.FormDataVariables.DOCUMENTS_FORM);
+        final var submittedDocumentFileNames = (List<String>) formSubmissionFields.stream().findFirst().get().getValue();
+
+        execution.setVariable(Constants.ProcessVariables.SUBMITTED_DOCUMENTS_COUNT, submittedDocumentFileNames.size());
 
         log.info(LogMessages.FINISHED, SetSubmittedDocumentsCount.class.getName());
     }

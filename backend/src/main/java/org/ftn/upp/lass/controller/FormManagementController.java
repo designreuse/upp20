@@ -60,6 +60,7 @@ public class FormManagementController {
             case Constants.FormDataVariables.USER_DATA_FORM:
             case Constants.FormDataVariables.BETA_ACCESS_GENRES_FORM:
             case Constants.FormDataVariables.COVER_LETTER_FORM:
+            case Constants.FormDataVariables.DOCUMENTS_FORM:
                 return formSubmissionType;
             default:
                 return Constants.FormDataVariables.GENERIC_FORM_DATA;
