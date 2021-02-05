@@ -223,7 +223,9 @@
         <bpmn:incoming>Flow_0w19okr</bpmn:incoming>
         <bpmn:escalationEventDefinition id="EscalationEventDefinition_05cy24d" escalationRef="Escalation_1unklr2" />
       </bpmn:endEvent>
-      <bpmn:sequenceFlow id="Flow_0w19okr" name="reject &#62; 50% " sourceRef="Gateway_0i4sqgv" targetRef="Event_1wlotd1" />
+      <bpmn:sequenceFlow id="Flow_0w19okr" name="reject &#62; 50% " sourceRef="Gateway_0i4sqgv" targetRef="Event_1wlotd1">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${2==4}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
       <bpmn:sequenceFlow id="Flow_1sc8cry" sourceRef="Gateway_0i4sqgv" targetRef="Event_1av95pr" />
       <bpmn:endEvent id="Event_1av95pr" name="Accept">
         <bpmn:incoming>Flow_1sc8cry</bpmn:incoming>
@@ -234,7 +236,9 @@
         <bpmn:outgoing>Flow_1wtl8o5</bpmn:outgoing>
       </bpmn:serviceTask>
       <bpmn:sequenceFlow id="Flow_0whaleh" sourceRef="Event_0pxafbj" targetRef="Activity_0st0xh1" />
-      <bpmn:sequenceFlow id="Flow_01cmmfm" name="more info &#62;= 1" sourceRef="Gateway_0i4sqgv" targetRef="Gateway_0dpx9nc" />
+      <bpmn:sequenceFlow id="Flow_01cmmfm" name="more info &#62;= 1" sourceRef="Gateway_0i4sqgv" targetRef="Gateway_0dpx9nc">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${2==4}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
       <bpmn:serviceTask id="Activity_1rx4p8n" name="Process all review results" camunda:class="org.ftn.upp.lass.integration.delegate.ProcessMembershipRequestReviewResults">
         <bpmn:incoming>Flow_0c9zcig</bpmn:incoming>
         <bpmn:outgoing>Flow_0wbtaus</bpmn:outgoing>
@@ -245,15 +249,17 @@
         <bpmn:incoming>Flow_08p99je</bpmn:incoming>
         <bpmn:escalationEventDefinition id="EscalationEventDefinition_0omc26z" escalationRef="Escalation_1unklr2" />
       </bpmn:endEvent>
-      <bpmn:exclusiveGateway id="Gateway_0dpx9nc" name="4th review?" default="Flow_1q40k8j">
+      <bpmn:exclusiveGateway id="Gateway_0dpx9nc" default="Flow_1q40k8j">
         <bpmn:incoming>Flow_01cmmfm</bpmn:incoming>
         <bpmn:incoming>Flow_0vor0ep</bpmn:incoming>
         <bpmn:outgoing>Flow_08p99je</bpmn:outgoing>
         <bpmn:outgoing>Flow_1q40k8j</bpmn:outgoing>
       </bpmn:exclusiveGateway>
-      <bpmn:sequenceFlow id="Flow_08p99je" sourceRef="Gateway_0dpx9nc" targetRef="Event_0ew8jws" />
+      <bpmn:sequenceFlow id="Flow_08p99je" name="4th review?" sourceRef="Gateway_0dpx9nc" targetRef="Event_0ew8jws">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${nrOfCompletedInstances==3}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
       <bpmn:sequenceFlow id="Flow_1q40k8j" sourceRef="Gateway_0dpx9nc" targetRef="Activity_1r98tkh" />
-      <bpmn:userTask id="Activity_0llg2kh" name="Submit additional documents">
+      <bpmn:userTask id="Activity_0llg2kh" name="Submit additional documents" camunda:assignee="${username}">
         <bpmn:incoming>Flow_1wtl8o5</bpmn:incoming>
         <bpmn:outgoing>Flow_0luhlij</bpmn:outgoing>
       </bpmn:userTask>
@@ -329,6 +335,9 @@ TODO: If one of the votes is MORE_INFO, cancel all running tasks and send email 
         <bpmn:outgoing>Flow_0195cjo</bpmn:outgoing>
       </bpmn:serviceTask>
       <bpmn:userTask id="Activity_1l31chd" name="Submit documents" camunda:assignee="${username}">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="org.ftn.upp.lass.integration.listener.SetSubmittedDocumentsCount" event="end" />
+        </bpmn:extensionElements>
         <bpmn:incoming>Flow_0n605k7</bpmn:incoming>
         <bpmn:outgoing>Flow_05hcvsu</bpmn:outgoing>
       </bpmn:userTask>
@@ -481,8 +490,8 @@ On file upload endpoint send the processInstanceId to be able to read the member
   <bpmn:message id="Message_021z1yd" name="UserAccountVerifiedMessage" />
   <bpmn:message id="Message_1ugqxrm" name="ReSendVerificationEmailMessage" />
   <bpmn:error id="Error_19qa1qa" name="ValidationFailedInterruptingError" errorCode="ERR_001" />
-  <bpmn:escalation id="Escalation_09mbvvd" name="AuthorAccountActivatedEscalation" />
-  <bpmn:escalation id="Escalation_0mtdyjd" name="BoardMembersNotifiedEscalation" />
+  <bpmn:escalation id="Escalation_09mbvvd" name="AuthorAccountActivatedEscalation" escalationCode="ACTIVATED" />
+  <bpmn:escalation id="Escalation_0mtdyjd" name="BoardMembersNotifiedEscalation" escalationCode="NOTIFIED" />
   <bpmn:escalation id="Escalation_1unklr2" name="MembershipRequestRejectedEscalation" escalationCode="REJECTED" />
   <bpmn:escalation id="Escalation_1d6vos6" name="MembershipRequestAcceptedEscalation" escalationCode="ACCEPTED" />
   <bpmn:message id="Message_1vaprbp" name="MembershipPaidMessage" />
@@ -709,9 +718,12 @@ On file upload endpoint send the processInstanceId to be able to read the member
         <di:waypoint x="1050" y="1525" />
         <di:waypoint x="1050" y="1660" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_08p99je_di" bpmnElement="Flow_08p99je">
+      <bpmndi:BPMNEdge id="Flow_08p99je_di" bpmnElement="Flow_08p99je" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <di:waypoint x="1050" y="1475" />
         <di:waypoint x="1050" y="1438" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="991" y="1454" width="57" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0wbtaus_di" bpmnElement="Flow_0wbtaus">
         <di:waypoint x="710" y="1500" />
@@ -737,7 +749,7 @@ On file upload endpoint send the processInstanceId to be able to read the member
         <di:waypoint x="820" y="1580" />
         <di:waypoint x="902" y="1580" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0w19okr_di" bpmnElement="Flow_0w19okr">
+      <bpmndi:BPMNEdge id="Flow_0w19okr_di" bpmnElement="Flow_0w19okr" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <di:waypoint x="820" y="1475" />
         <di:waypoint x="820" y="1420" />
         <di:waypoint x="902" y="1420" />
@@ -791,7 +803,7 @@ On file upload endpoint send the processInstanceId to be able to read the member
       <bpmndi:BPMNShape id="Gateway_0dpx9nc_di" bpmnElement="Gateway_0dpx9nc" isMarkerVisible="true">
         <dc:Bounds x="1025" y="1475" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="991" y="1453" width="57" height="14" />
+          <dc:Bounds x="981" y="1453" width="57" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_131u1ck_di" bpmnElement="Activity_0llg2kh">
