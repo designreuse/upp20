@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1l00b5c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1l00b5c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
   <bpmn:process id="RegisterReaderProcess" name="Register Reader Process" isExecutable="true">
     <bpmn:subProcess id="ReaderRegistrationActivity" name="Reader registration">
       <bpmn:incoming>StartMainProcessBranch</bpmn:incoming>
@@ -17,6 +17,7 @@
               <camunda:properties>
                 <camunda:property id="type" value="text" />
                 <camunda:property id="required" value="required" />
+                <camunda:property id="controlType" value="textbox" />
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="required" />
@@ -26,6 +27,7 @@
               <camunda:properties>
                 <camunda:property id="type" value="text" />
                 <camunda:property id="required" value="required" />
+                <camunda:property id="controlType" value="textbox" />
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="required" />
@@ -36,6 +38,7 @@
                 <camunda:property id="type" value="email" />
                 <camunda:property id="required" value="required" />
                 <camunda:property id="pattern" value="^(?:[a-z0-9!#$%&#38;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&#38;&#39;*+/=?^_`{|}~-]+)*|&#34;(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*&#34;)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$" />
+                <camunda:property id="controlType" value="textbox" />
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="required" />
@@ -47,6 +50,7 @@
                 <camunda:property id="type" value="text" />
                 <camunda:property id="required" value="required" />
                 <camunda:property id="pattern" value="^[a-zA-Z0-9]*$" />
+                <camunda:property id="controlType" value="textbox" />
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="required" />
@@ -59,6 +63,7 @@
                 <camunda:property id="type" value="password" />
                 <camunda:property id="required" value="required" />
                 <camunda:property id="pattern" value="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" />
+                <camunda:property id="controlType" value="textbox" />
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="required" />
@@ -69,6 +74,7 @@
               <camunda:properties>
                 <camunda:property id="type" value="text" />
                 <camunda:property id="required" value="required" />
+                <camunda:property id="controlType" value="textbox" />
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="required" />
@@ -78,6 +84,7 @@
               <camunda:properties>
                 <camunda:property id="type" value="text" />
                 <camunda:property id="required" value="required" />
+                <camunda:property id="controlType" value="textbox" />
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="required" />
@@ -87,6 +94,7 @@
               <camunda:properties>
                 <camunda:property id="type" value="text" />
                 <camunda:property id="required" value="required" />
+                <camunda:property id="controlType" value="textbox" />
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="required" />
@@ -96,20 +104,43 @@
               <camunda:properties>
                 <camunda:property id="type" value="text" />
                 <camunda:property id="required" value="required" />
+                <camunda:property id="controlType" value="textbox" />
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="required" />
               </camunda:validation>
             </camunda:formField>
             <camunda:formField id="favoriteGenres" label="Select Favorite Genres" type="CustomSelectFormField">
+              <camunda:properties>
+                <camunda:property id="controlType" value="dropdown" />
+              </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="validator" config="org.ftn.upp.lass.integration.validator.GenreSelectionValidator" />
                 <camunda:constraint name="required" config="required" />
               </camunda:validation>
             </camunda:formField>
+            <camunda:formField id="latitude" label="Latitude" type="long">
+              <camunda:properties>
+                <camunda:property id="type" value="number" />
+                <camunda:property id="controlType" value="textbox" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+              </camunda:validation>
+            </camunda:formField>
+            <camunda:formField id="longitude" label="Longitude" type="long">
+              <camunda:properties>
+                <camunda:property id="type" value="number" />
+                <camunda:property id="controlType" value="textbox" />
+              </camunda:properties>
+              <camunda:validation>
+                <camunda:constraint name="required" />
+              </camunda:validation>
+            </camunda:formField>
             <camunda:formField id="isBetaAccessRequested" label="Request beta access?" type="boolean" defaultValue="false">
               <camunda:properties>
                 <camunda:property id="type" value="checkbox" />
+                <camunda:property id="controlType" value="textbox" />
               </camunda:properties>
             </camunda:formField>
           </camunda:formData>
