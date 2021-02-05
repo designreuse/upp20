@@ -1,0 +1,7 @@
+<div>
+    <h2>Registration form</h2>
+    <app-dynamic-form *ngIf="formFields$"
+                      [fields]="formFields$ | async"
+                      (newItemEvent)="submitForm($event)">
+    </app-dynamic-form>
+</div>

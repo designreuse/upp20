@@ -1,0 +1,18 @@
+<div [formGroup]="form" *ngIf="field">
+  <label [attr.for]="field.id">{{field.label}}</label>
+
+    <div [ngSwitch]="field.properties.controlType">
+
+      <input *ngSwitchCase="'textbox'" [formControlName]="field.id"
+              [id]="field.id" [type]="field.properties.type ? field.properties.type : null" />
+
+      <!-- Works only for CustomSelectFormField for now -->
+      <select *ngSwitchCase="'dropdown'" [formControlName]="field.id"
+              [id]="field.id" multiple>
+        <option *ngFor="let option of field.type.values | keyvalue" [value]="option.key">{{option.value}}</option>
+      </select>
+
+    </div>
+
+    <div class="errorMessage" *ngIf="!isValid">{{field.label}} is required</div>
+  </div>
