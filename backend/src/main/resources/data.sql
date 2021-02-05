@@ -2,15 +2,20 @@
 DELETE FROM literary_association_db.publishers ^;
 DELETE FROM literary_association_db.reader_favorite_genres ^;
 DELETE FROM literary_association_db.reader_beta_access_genres ^;
+DELETE FROM literary_association_db.author_favorite_genres ^;
 DELETE FROM literary_association_db.users_board_members ^;
 DELETE FROM literary_association_db.users_system_admins ^;
 DELETE FROM literary_association_db.users_proofreaders ^;
 DELETE FROM literary_association_db.users_editors ^;
 DELETE FROM literary_association_db.users_readers ^;
 DELETE FROM literary_association_db.users_beta_access_readers ^;
+DELETE FROM literary_association_db.users_authors ^;
 DELETE FROM literary_association_db.genres ^;
 DELETE FROM literary_association_db.addresses ^;
 DELETE FROM literary_association_db.verification_codes ^;
+DELETE FROM literary_association_db.membership_requests_submitted_documents ^;
+DELETE FROM literary_association_db.documents ^;
+DELETE FROM literary_association_db.membership_requests ^;
 
 INSERT INTO literary_association_db.genres (id, name)
 VALUES
