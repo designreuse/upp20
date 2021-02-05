@@ -71,10 +71,18 @@ public class TaskManagementController {
 
         final Task currentlyActiveTask;
         try {
-            currentlyActiveTask = this.taskService.createTaskQuery()
-                    .processInstanceId(processInstanceId)
-                    .active()
-                    .singleResult();
+            if (JwtTokenDetailsUtil.isAnonymousUserAuthenticationToken()) {
+                currentlyActiveTask = this.taskService.createTaskQuery()
+                        .processInstanceId(processInstanceId)
+                        .active()
+                        .singleResult();
+            } else {
+                currentlyActiveTask = this.taskService.createTaskQuery()
+                        .processInstanceId(processInstanceId)
+                        .taskAssignee(JwtTokenDetailsUtil.getCurrentUserUsername())
+                        .active()
+                        .singleResult();
+            }
         } catch (ProcessEngineException e) {
             throw new BadRequestException(BadRequestResponseCode.INVALID_REQUEST_DATA, ErrorMessageUtil.activeTaskForProcessInstanceNotFound(processInstanceId));
         }
