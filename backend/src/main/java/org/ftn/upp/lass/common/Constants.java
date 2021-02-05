@@ -20,6 +20,7 @@ public final class Constants {
         public static final String CREATED_MEMBERSHIP_REQUEST = "createdMembershipRequest";
         public static final String ASSIGNED_BOARD_MEMBERS = "assignedBoardMembers";
         public static final String SUBMITTED_DOCUMENTS_COUNT = "submittedDocumentsCount";
+        public static final String DECIDED_TO_REJECT = "decidedToReject";
     }
 
     public static final class FormDataVariables {
