@@ -33,4 +33,13 @@ public class CamundaIdentityServiceImpl implements CamundaIdentityService {
         this.identityService.saveUser(camundaUser);
         log.info(LogMessages.ADDED_USER_TO_CAMUNDA, user.getUsername());
     }
+
+    @Override
+    public void deleteUser(User user) {
+        log.info(LogMessages.REMOVING_USER_FROM_CAMUNDA, user.getUsername());
+
+        this.identityService.deleteUser(user.getUsername());
+
+        log.info(LogMessages.REMOVED_USER_FROM_CAMUNDA, user.getUsername());
+    }
 }

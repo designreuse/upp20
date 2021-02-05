@@ -5,4 +5,5 @@ import org.ftn.upp.lass.model.User;
 public interface CamundaIdentityService {
 
     void addUser(User user);
+    void deleteUser(User user);
 }
