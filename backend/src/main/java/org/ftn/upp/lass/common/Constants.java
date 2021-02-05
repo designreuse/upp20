@@ -17,6 +17,7 @@ public final class Constants {
         public static final String REGISTERED_READER = "registeredReader";
 
         public static final String REGISTERED_AUTHOR = "registeredAuthor";
+        public static final String CREATED_MEMBERSHIP_REQUEST = "createdMembershipRequest";
     }
 
     public static final class FormDataVariables {
@@ -27,6 +28,7 @@ public final class Constants {
 
         public static final String USER_DATA_FORM = "userDataForm";
         public static final String BETA_ACCESS_GENRES_FORM = "betaAccessGenresForm";
+        public static final String COVER_LETTER_FORM = "coverLetterForm";
     }
 
     public static final class FormFieldVariables {
@@ -47,6 +49,8 @@ public final class Constants {
         public static final String FAVORITE_GENRES = "favoriteGenres";
         public static final String IS_BETA_ACCESS_REQUESTED = "isBetaAccessRequested";
         public static final String BETA_ACCESS_GENRES = "betaAccessGenres";
+
+        public static final String COVER_LETTER = "coverLetter";
     }
 
     public static final class ProcessConstants {
@@ -57,5 +61,7 @@ public final class Constants {
 
         public static final String USER_ACCOUNT_VERIFIED_MESSAGE = "UserAccountVerifiedMessage";
         public static final String RESEND_VERIFICATION_EMAIL_MESSAGE = "ReSendVerificationEmailMessage";
+
+        public static final Long RESUBMISSION_DEADLINE_DAYS_COUNT = 3L;
     }
 }
