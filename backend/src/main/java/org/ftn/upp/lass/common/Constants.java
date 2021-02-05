@@ -54,6 +54,8 @@ public final class Constants {
         public static final String BETA_ACCESS_GENRES = "betaAccessGenres";
 
         public static final String COVER_LETTER = "coverLetter";
+        public static final String JUSTIFICATION = "justification";
+        public static final String REVIEW_RESULT = "reviewResult";
     }
 
     public static final class ProcessConstants {
@@ -67,5 +69,9 @@ public final class Constants {
         public static final String RESEND_VERIFICATION_EMAIL_MESSAGE = "ReSendVerificationEmailMessage";
 
         public static final Long RESUBMISSION_DEADLINE_DAYS_COUNT = 3L;
+
+        public static final String REVIEW_RESULT_ACCEPTED = "ACCEPT";
+        public static final String REVIEW_RESULT_REJECTED = "REJECT";
+        public static final String REVIEW_RESULT_RESUBMISSION_REQUIRED = "RESUBMISSION_REQUIRED";
     }
 }
