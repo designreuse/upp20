@@ -37,7 +37,7 @@ public class JwtAuthenticationController {
         final var user = this.userRepository.findUserByUsername(authenticationRequest.getUsername());
         if (!user.get().getIsVerified()) {
             final var processInstance = this.runtimeService.createProcessInstanceQuery()
-                    .processDefinitionKey(Constants.ProcessConstants.REGISTER_READER_PROCESS_ID)
+                    .processDefinitionKeyIn(Constants.ProcessConstants.REGISTER_READER_PROCESS_ID, Constants.ProcessConstants.REGISTER_AUTHOR_PROCESS_ID)
                     .variableValueEquals(Constants.FormFieldVariables.USERNAME, authenticationRequest.getUsername())
                     .active()
                     .singleResult();
