@@ -68,6 +68,7 @@ public final class Constants {
 
         public static final String USER_ACCOUNT_VERIFIED_MESSAGE = "UserAccountVerifiedMessage";
         public static final String RESEND_VERIFICATION_EMAIL_MESSAGE = "ReSendVerificationEmailMessage";
+        public static final String MEMBERSHIP_PAID_MESSAGE = "MembershipPaidMessage";
 
         public static final Long RESUBMISSION_DEADLINE_DAYS_COUNT = 3L;
 

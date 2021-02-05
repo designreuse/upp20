@@ -28,4 +28,6 @@ public final class LogMessages {
     public static final String REMOVED_USER_FROM_CAMUNDA = "User {} removed from Camunda Engine.";
     public static final String VERIFYING_ACCOUNT = "Verifying account associated with {} verification code as part of {} process.";
     public static final String VERIFIED_ACCOUNT = "Successfully verified account associated with {} verification code as part of {} process.";
+    public static final String PROCESSING_MEMBERSHIP_PAYMENT = "Processing membership payment as part of {} process.";
+    public static final String PROCESSED_MEMBERSHIP_PAYMENT = "Successfully processed membership payment as part of {} process.";
 }

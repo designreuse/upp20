@@ -15,6 +15,9 @@ public final class RestApiEndpoints {
     public static final String USER = API_ROOT + "/user";
     public static final String VERIFY_ACCOUNT = "/verify-account";
 
+    public static final String PAYMENT = API_ROOT + "/payment";
+    public static final String PAY_MEMBERSHIP_MOCK = "/pay-membership-mock";
+
     public static final String PROCESS_MANAGEMENT = API_ROOT + "/process-management";
     public static final String START_PROCESS_INSTANCE = "/start-process";
 
