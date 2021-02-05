@@ -264,7 +264,7 @@
         <bpmn:outgoing>Flow_0luhlij</bpmn:outgoing>
       </bpmn:userTask>
       <bpmn:sequenceFlow id="Flow_1wtl8o5" sourceRef="Activity_1r98tkh" targetRef="Activity_0llg2kh" />
-      <bpmn:serviceTask id="Activity_0qx4bts" name="Send notifications to assigned board members" camunda:class="org.ftn.upp.lass.integration.delegate.SendMembershipRequestNotification">
+      <bpmn:serviceTask id="Activity_0qx4bts" name="Send notifications to assigned board members" camunda:class="org.ftn.upp.lass.integration.delegate.SendUpdatedMembershipRequestNotification">
         <bpmn:incoming>Flow_0luhlij</bpmn:incoming>
         <bpmn:outgoing>Flow_0v7t7bh</bpmn:outgoing>
       </bpmn:serviceTask>
@@ -301,6 +301,10 @@ TODO: If one of the votes is MORE_INFO, cancel all running tasks and send email 
         <bpmn:text>TODO: Fix</bpmn:text>
       </bpmn:textAnnotation>
       <bpmn:association id="Association_1voaz1x" sourceRef="Event_09nrn2u" targetRef="TextAnnotation_0f65jn3" />
+      <bpmn:textAnnotation id="TextAnnotation_04cgcnx">
+        <bpmn:text>TODO: File upload and form submission</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:association id="Association_1x34yb6" sourceRef="Activity_0llg2kh" targetRef="TextAnnotation_04cgcnx" />
     </bpmn:subProcess>
     <bpmn:boundaryEvent id="Event_1cdqr8q" name="Author&#39;s account activated" attachedToRef="AuthorRegistrationActivity">
       <bpmn:outgoing>Flow_0o083io</bpmn:outgoing>
@@ -461,7 +465,7 @@ On file upload endpoint send the processInstanceId to be able to read the member
         <bpmn:outgoing>Flow_0hsn3dc</bpmn:outgoing>
         <bpmn:messageEventDefinition id="MessageEventDefinition_0wau07b" messageRef="Message_1vaprbp" />
       </bpmn:intermediateCatchEvent>
-      <bpmn:serviceTask id="Activity_0gvvr76" name="Change author&#39;s membership status" camunda:class="org.ftn.upp.lass.integration.delegate.ActivateAuthorAccount">
+      <bpmn:serviceTask id="Activity_0gvvr76" name="Change author&#39;s membership status" camunda:class="org.ftn.upp.lass.integration.delegate.SetAuthorMembershipStatusToActive">
         <bpmn:incoming>Flow_0hsn3dc</bpmn:incoming>
         <bpmn:outgoing>Flow_1n8hqca</bpmn:outgoing>
       </bpmn:serviceTask>
@@ -496,6 +500,10 @@ On file upload endpoint send the processInstanceId to be able to read the member
       <bpmn:text>TODO: Store review results after processing as variables to enable escalation events to trigger</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_123kw1v" sourceRef="Activity_1xg5aqf" targetRef="TextAnnotation_1jmxfin" />
+    <bpmn:textAnnotation id="TextAnnotation_1q57w2y">
+      <bpmn:text>TODO: Check if payment integration is sufficient</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1hoohmu" sourceRef="Activity_17bko9v" targetRef="TextAnnotation_1q57w2y" />
   </bpmn:process>
   <bpmn:message id="Message_021z1yd" name="UserAccountVerifiedMessage" />
   <bpmn:message id="Message_1ugqxrm" name="ReSendVerificationEmailMessage" />
@@ -509,6 +517,9 @@ On file upload endpoint send the processInstanceId to be able to read the member
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="RegisterAuthorProcess">
       <bpmndi:BPMNShape id="TextAnnotation_1jmxfin_di" bpmnElement="TextAnnotation_1jmxfin" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
         <dc:Bounds x="1270" y="1270" width="206" height="53" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1q57w2y_di" bpmnElement="TextAnnotation_1q57w2y" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="1430" y="1950" width="180" height="40" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1f6b34c_di" bpmnElement="Flow_1f6b34c">
         <di:waypoint x="1042" y="2240" />
@@ -717,6 +728,9 @@ On file upload endpoint send the processInstanceId to be able to read the member
       <bpmndi:BPMNShape id="TextAnnotation_0f65jn3_di" bpmnElement="TextAnnotation_0f65jn3" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
         <dc:Bounds x="520" y="1600" width="100" height="30" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_04cgcnx_di" bpmnElement="TextAnnotation_04cgcnx" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="590" y="1820" width="99.99156545209178" height="66.12685560053981" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0vor0ep_di" bpmnElement="Flow_0vor0ep">
         <di:waypoint x="540" y="1442" />
         <di:waypoint x="540" y="1360" />
@@ -807,7 +821,7 @@ On file upload endpoint send the processInstanceId to be able to read the member
           <dc:Bounds x="905" y="1605" width="34" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0y6rv3y_di" bpmnElement="Activity_1r98tkh">
+      <bpmndi:BPMNShape id="Activity_0y6rv3y_di" bpmnElement="Activity_1r98tkh" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <dc:Bounds x="1000" y="1660" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_04kdeoq_di" bpmnElement="Activity_1rx4p8n">
@@ -828,7 +842,7 @@ On file upload endpoint send the processInstanceId to be able to read the member
       <bpmndi:BPMNShape id="Activity_131u1ck_di" bpmnElement="Activity_0llg2kh">
         <dc:Bounds x="820" y="1660" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0qx4bts_di" bpmnElement="Activity_0qx4bts">
+      <bpmndi:BPMNShape id="Activity_0qx4bts_di" bpmnElement="Activity_0qx4bts" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <dc:Bounds x="610" y="1660" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1yvxanz_di" bpmnElement="Event_1yvxanz">
@@ -850,6 +864,10 @@ On file upload endpoint send the processInstanceId to be able to read the member
       <bpmndi:BPMNEdge id="Association_1voaz1x_di" bpmnElement="Association_1voaz1x">
         <di:waypoint x="543" y="1477" />
         <di:waypoint x="567" y="1600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1x34yb6_di" bpmnElement="Association_1x34yb6">
+        <di:waypoint x="820" y="1729" />
+        <di:waypoint x="666" y="1820" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_07iricx_di" bpmnElement="Event_09nrn2u">
         <dc:Bounds x="522" y="1442" width="36" height="36" />
@@ -971,7 +989,7 @@ On file upload endpoint send the processInstanceId to be able to read the member
       <bpmndi:BPMNShape id="Activity_1n2sjg4_di" bpmnElement="Activity_1n2sjg4">
         <dc:Bounds x="420" y="2150" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0usf2my_di" bpmnElement="Activity_0usf2my">
+      <bpmndi:BPMNShape id="Activity_0usf2my_di" bpmnElement="Activity_0usf2my" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <dc:Bounds x="600" y="2150" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1nt6d9p_di" bpmnElement="Event_0lqehm7">
@@ -1006,7 +1024,7 @@ On file upload endpoint send the processInstanceId to be able to read the member
       <bpmndi:BPMNShape id="Activity_1a13cg6_di" bpmnElement="Activity_1a13cg6">
         <dc:Bounds x="1190" y="2150" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_19d0ewq_di" bpmnElement="Activity_19d0ewq">
+      <bpmndi:BPMNShape id="Activity_19d0ewq_di" bpmnElement="Activity_19d0ewq" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <dc:Bounds x="1380" y="2150" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0cs6kxu_di" bpmnElement="Event_0mnycco">
@@ -1025,7 +1043,11 @@ On file upload endpoint send the processInstanceId to be able to read the member
         <di:waypoint x="1150" y="1386" />
         <di:waypoint x="1270" y="1315" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_09lq2mg_di" bpmnElement="Event_0oer7sj">
+      <bpmndi:BPMNEdge id="Association_1hoohmu_di" bpmnElement="Association_1hoohmu">
+        <di:waypoint x="1494" y="2090" />
+        <di:waypoint x="1483" y="1990" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_09lq2mg_di" bpmnElement="Event_0oer7sj" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <dc:Bounds x="1042" y="2222" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="956" y="2260" width="87" height="53" />
