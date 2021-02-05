@@ -9,7 +9,6 @@ import org.ftn.upp.lass.common.LogMessages;
 import org.ftn.upp.lass.model.Author;
 import org.ftn.upp.lass.model.MembershipStatus;
 import org.ftn.upp.lass.repository.UserRepository;
-import org.ftn.upp.lass.service.VerificationCodeService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
