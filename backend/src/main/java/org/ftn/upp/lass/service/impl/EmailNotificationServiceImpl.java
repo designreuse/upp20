@@ -51,6 +51,7 @@ public class EmailNotificationServiceImpl implements NotificationService {
      * @param recipientUser {@link User} instance as recipient
      * @throws MessagingException Exception thrown in case an error on the SMTP server occurs
      */
+    @Override
     @Async
     public void sendVerificationEmail(User recipientUser, String processInstanceId) throws MessagingException {
         this.sendEmail(
@@ -67,6 +68,7 @@ public class EmailNotificationServiceImpl implements NotificationService {
      * @param membershipRequest {@link MembershipRequest} instance
      * @throws MessagingException Exception thrown in case an error on the SMTP server occurs
      */
+    @Override
     @Async
     public void sendMembershipRequestEmail(List<BoardMember> recipientUsers, MembershipRequest membershipRequest, String processInstanceId) throws MessagingException {
 
