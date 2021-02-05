@@ -24,13 +24,16 @@ public class MembershipReview extends AbstractBaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ReviewResult reviewResult;
+    @Builder.Default
+    private ReviewResult reviewResult = ReviewResult.IN_PROGRESS;
 
     @Column(nullable = false)
     @NotBlank
     @Size(min = 10, max = 300)
-    private String justification;
+    @Builder.Default
+    private String justification = "Yet to be submitted.";
 
     @Column(nullable = false)
-    private LocalDateTime lastChangedAt;
+    @Builder.Default
+    private LocalDateTime lastChangedAt = LocalDateTime.now();
 }

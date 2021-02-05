@@ -1,6 +1,7 @@
 package org.ftn.upp.lass.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +16,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class MembershipRequest extends Request {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -28,7 +29,8 @@ public class MembershipRequest extends Request {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ReviewResult reviewResult;
+    @Builder.Default
+    private ReviewResult reviewResult = ReviewResult.IN_PROGRESS;
 
     @Column(nullable = false)
     private LocalDateTime resubmissionDeadline;
