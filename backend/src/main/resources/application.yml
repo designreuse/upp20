@@ -53,7 +53,7 @@ security:
 templates:
   html:
     verification: "verification"
-
+    membership_request: "membership_request"
 
 # TODO: File upload configuration
 # TODO: File storage configuration

@@ -1,6 +1,8 @@
 package org.ftn.upp.lass.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.ftn.upp.lass.model.BoardMember;
+import org.ftn.upp.lass.model.MembershipRequest;
 import org.ftn.upp.lass.model.User;
 import org.ftn.upp.lass.service.NotificationService;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,10 +20,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
@@ -39,6 +38,9 @@ public class EmailNotificationServiceImpl implements NotificationService {
     @Value("${templates.html.verification}")
     private String verificationTemplateName;
 
+    @Value("${templates.html.membership_request}")
+    private String membershipRequestTemplateName;
+
     private final JavaMailSender mailSender;
     private final ITemplateEngine springTemplateEngine;
 
@@ -51,7 +53,31 @@ public class EmailNotificationServiceImpl implements NotificationService {
      */
     @Async
     public void sendVerificationEmail(User recipientUser, String processInstanceId) throws MessagingException {
-        this.sendEmail(recipientUser.getEmail(), "LASS Verification - Please confirm your account", this.generateVerificationMail(recipientUser, processInstanceId));
+        this.sendEmail(
+                recipientUser.getEmail(),
+                "LASS Verification - Please confirm your account",
+                this.generateVerificationMail(recipientUser, processInstanceId));
+    }
+
+    /**
+     * Sends a membership request e-mail to given board members.
+     * In case an messaging error on the SMTP server occurs, a {@link MessagingException} is thrown.
+     *
+     * @param recipientUsers {@link BoardMember} instances as recipients
+     * @param membershipRequest {@link MembershipRequest} instance
+     * @throws MessagingException Exception thrown in case an error on the SMTP server occurs
+     */
+    @Async
+    public void sendMembershipRequestEmail(List<BoardMember> recipientUsers, MembershipRequest membershipRequest, String processInstanceId) throws MessagingException {
+
+        // TODO (fivkovic): Get documents from DB and add them to email
+
+        for (User recipientUser : recipientUsers) {
+            this.sendEmail(
+                    recipientUser.getEmail(),
+                    "LASS Membership Request - Review required",
+                    this.generateMembershipRequestMail(recipientUser, membershipRequest, processInstanceId));
+        }
     }
 
     /**
@@ -151,5 +177,16 @@ public class EmailNotificationServiceImpl implements NotificationService {
 
         return this.springTemplateEngine
                 .process(this.verificationTemplateName, new Context(Locale.getDefault(), variables));
+    }
+
+    private String generateMembershipRequestMail(User recipientUser, MembershipRequest membershipRequest, String processInstanceId) {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("recipient", recipientUser.getFirstName());
+        variables.put("author", membershipRequest.getAuthor().getFirstName().concat(" ").concat(membershipRequest.getAuthor().getLastName()));
+        variables.put("coverLetter", membershipRequest.getCoverLetter());
+        variables.put("pid", processInstanceId);
+
+        return this.springTemplateEngine
+                .process(this.membershipRequestTemplateName, new Context(Locale.getDefault(), variables));
     }
 }
