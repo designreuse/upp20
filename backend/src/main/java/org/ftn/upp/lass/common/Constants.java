@@ -18,6 +18,7 @@ public final class Constants {
 
         public static final String REGISTERED_AUTHOR = "registeredAuthor";
         public static final String CREATED_MEMBERSHIP_REQUEST = "createdMembershipRequest";
+        public static final String ASSIGNED_BOARD_MEMBERS = "assignedBoardMembers";
     }
 
     public static final class FormDataVariables {
