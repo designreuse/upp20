@@ -27,14 +27,17 @@ public class Document extends AbstractBaseEntity {
     @Column(nullable = false, updatable = false)
     @Positive
     @Setter(AccessLevel.NONE)
-    private Integer version;
+    @Builder.Default
+    private Integer version = 1;
 
     @Column(nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private LocalDateTime submittedAt;
+    @Builder.Default
+    private LocalDateTime submittedAt = LocalDateTime.now();
 
     @Column(nullable = false)
-    private LocalDateTime editedAt;
+    @Builder.Default
+    private LocalDateTime editedAt = LocalDateTime.now();
 
     @Lob
     @Column(nullable = false, updatable = false)

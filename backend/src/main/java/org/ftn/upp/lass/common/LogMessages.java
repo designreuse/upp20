@@ -30,4 +30,6 @@ public final class LogMessages {
     public static final String VERIFIED_ACCOUNT = "Successfully verified account associated with {} verification code as part of {} process.";
     public static final String PROCESSING_MEMBERSHIP_PAYMENT = "Processing membership payment as part of {} process.";
     public static final String PROCESSED_MEMBERSHIP_PAYMENT = "Successfully processed membership payment as part of {} process.";
+    public static final String HANDLING_DOCUMENT_UPLOAD = "Handling document upload as part of {} process.";
+    public static final String HANDLED_DOCUMENT_UPLOAD = "Successfully uploaded documents as part of {} process.";
 }

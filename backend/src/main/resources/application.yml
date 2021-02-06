@@ -38,6 +38,10 @@ spring:
         smtp:
           starttls.enable: true
           auth: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 camunda:
   bpm:
@@ -50,6 +54,8 @@ security:
     secret: most.secure.secret.ever
     lifetime: 604800
 
+allowed-content-types: application/pdf
+
 templates:
   html:
     verification: "verification"
@@ -59,7 +65,3 @@ templates:
     membership_request_acceptance: "membership_request_acceptance"
     membership_request_rejection: "membership_request_rejection"
     membership_payment_deadline: "membership_payment_deadline"
-
-# TODO: File upload configuration
-# TODO: File storage configuration
-# TODO: HTML Templates
