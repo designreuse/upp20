@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {RegistrationComponent} from './registration/registration.component';
-import {HomeComponent} from './home/home.component';
+import {RegistrationComponent} from './components/registration/registration.component';
+import {HomeComponent} from './components/home/home.component';
 
 // todo fix routes
 const routes: Routes = [

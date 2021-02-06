@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
 import {Observable, of} from 'rxjs';
 import {FormFieldBase} from 'src/app/model/form-field-base';
 import {FormService} from 'src/app/services/form.service';
@@ -22,7 +21,6 @@ export class RegistrationComponent implements OnInit {
 
   private processInstanceId: any = localStorage.getItem('processInstanceId');
 
-  private formFields: any = {};
   formFields$: Observable<FormFieldBase<any>[]> | undefined;
 
   constructor(private processService: ProcessService,
@@ -52,13 +50,6 @@ export class RegistrationComponent implements OnInit {
       // todo maybe if processInstanceId doesn't exist, or it's different, show error?
       localStorage.setItem('taskId', response.taskId);
       console.log('Currently Active Task Form', response);
-      response.formFields.forEach((field: FormFieldBase<any>) => {
-        this.formFields[field.id] = new FormControl(
-          field.defaultValue,
-          field.validationConstraints.length > 0 ? this.formService.generateValidations(field.validationConstraints) : null
-        );
-      });
-
       this.formFields$ = of(response.formFields);
     });
   }

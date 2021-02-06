@@ -116,7 +116,7 @@
               </camunda:properties>
               <camunda:validation>
                 <camunda:constraint name="validator" config="org.ftn.upp.lass.integration.validator.GenreSelectionValidator" />
-                <camunda:constraint name="required" config="required" />
+                <camunda:constraint name="required" />
               </camunda:validation>
             </camunda:formField>
             <camunda:formField id="latitude" label="Latitude" type="long">

@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="form">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
       <div *ngFor="let field of fields" class="form-row">
@@ -6,7 +6,7 @@
       </div>
 
       <div class="form-row">
-        <button type="submit" [disabled]="!form.valid">Save</button>
+        <button type="submit">Save</button>
       </div>
     </form>
 </div>

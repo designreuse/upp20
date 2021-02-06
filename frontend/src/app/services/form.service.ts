@@ -14,8 +14,8 @@ export class FormService {
 
   private validationHelper = {
     required: Validators.required,
-    minlength: Validators.minLength(1),
-    maxlength: Validators.maxLength(2),
+    minlength: (val: number) => Validators.minLength(val),
+    maxlength: (val: number) => Validators.maxLength(val),
     min: Validators.min,
     max: Validators.maxLength
   } as any;
@@ -58,12 +58,16 @@ export class FormService {
     }));
   }
 
-  toFormGroup(questions: FormFieldBase<string>[]): any {
+  toFormGroup(formFields: FormFieldBase<any>[]): any {
     const group: any = {};
 
-    questions.forEach(question => {
-      group[question.id] = new FormControl('');
+    formFields.forEach((field: FormFieldBase<any>) => {
+      group[field.id] = new FormControl(
+        field.defaultValue?.toString(),
+        field.validationConstraints.length > 0 ? this.generateValidations(field.validationConstraints) : null
+      );
     });
+
     return new FormGroup(group);
   }
 
@@ -72,10 +76,13 @@ export class FormService {
   generateValidations(constraints: Constraint[]): any[] {
     const arr: any[] = [];
     constraints.forEach((constraint: Constraint) => {
-      if (!!constraint.configuration) {
-        arr.push(this.validationHelper[constraint.name](constraint.configuration));
-      } else {
-        arr.push(this.validationHelper[constraint.name]);
+      // additional if that checks if it's custom validator used on backend
+      if (Object.keys(this.validationHelper).includes(constraint.name)) {
+        if (!!constraint.configuration) {
+          arr.push(this.validationHelper[constraint.name](constraint.configuration));
+        } else {
+          arr.push(this.validationHelper[constraint.name]);
+        }
       }
     });
     return arr;
