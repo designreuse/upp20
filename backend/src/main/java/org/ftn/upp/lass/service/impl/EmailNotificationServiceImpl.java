@@ -49,6 +49,9 @@ public class EmailNotificationServiceImpl implements NotificationService {
 
     @Value("${templates.html.membership_request_acceptance}")
     private String membershipRequestAcceptanceTemplateName;
+
+    @Value("${templates.html.membership_request_rejection}")
+    private String membershipRequestRejectionTemplateName;
     private final JavaMailSender mailSender;
     private final ITemplateEngine springTemplateEngine;
 
@@ -122,6 +125,14 @@ public class EmailNotificationServiceImpl implements NotificationService {
                 this.generateMembershipRequestAcceptanceMail(recipientUser, processInstanceId));
     }
 
+    @Override
+    @Async
+    public void sendMembershipRequestRejectionEmail(User recipientUser, String processInstanceId) throws MessagingException {
+        this.sendEmail(
+                recipientUser.getEmail(),
+                "LASS Membership Request - Rejected",
+                this.generateMembershipRequestRejectionMail(recipientUser, processInstanceId));
+    }
     /**
      * Sends an email with given content and attachments to the recipient.
      *
@@ -239,6 +250,34 @@ public class EmailNotificationServiceImpl implements NotificationService {
 
         return this.springTemplateEngine
                 .process(this.resubmissionRequiredTemplateName, new Context(Locale.getDefault(), variables));
+    }
+
+    private String generateResubmissionFinishedMail(User recipientUser, MembershipRequest membershipRequest, String processInstanceId) {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("recipient", recipientUser.getFirstName());
+        variables.put("author", membershipRequest.getAuthor().getFirstName().concat(" ").concat(membershipRequest.getAuthor().getLastName()));
+        variables.put("pid", processInstanceId);
+
+        return this.springTemplateEngine
+                .process(this.resubmissionFinishedTemplateName, new Context(Locale.getDefault(), variables));
+    }
+
+    private String generateMembershipRequestAcceptanceMail(User recipientUser, String processInstanceId) {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("recipient", recipientUser.getFirstName());
+        variables.put("pid", processInstanceId);
+
+        return this.springTemplateEngine
+                .process(this.membershipRequestAcceptanceTemplateName, new Context(Locale.getDefault(), variables));
+    }
+
+    private String generateMembershipRequestRejectionMail(User recipientUser, String processInstanceId) {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("recipient", recipientUser.getFirstName());
+        variables.put("pid", processInstanceId);
+
+        return this.springTemplateEngine
+                .process(this.membershipRequestRejectionTemplateName, new Context(Locale.getDefault(), variables));
     }
 
 }
