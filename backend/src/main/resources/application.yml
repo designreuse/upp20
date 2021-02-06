@@ -54,6 +54,7 @@ templates:
   html:
     verification: "verification"
     membership_request: "membership_request"
+    resubmission_required: "resubmission_required"
 
 # TODO: File upload configuration
 # TODO: File storage configuration

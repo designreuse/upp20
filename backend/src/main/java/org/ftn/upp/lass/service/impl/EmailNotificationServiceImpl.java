@@ -41,6 +41,8 @@ public class EmailNotificationServiceImpl implements NotificationService {
     @Value("${templates.html.membership_request}")
     private String membershipRequestTemplateName;
 
+    @Value("${templates.html.resubmission_required}")
+    private String resubmissionRequiredTemplateName;
     private final JavaMailSender mailSender;
     private final ITemplateEngine springTemplateEngine;
 
@@ -80,6 +82,15 @@ public class EmailNotificationServiceImpl implements NotificationService {
                     "LASS Membership Request - Review required",
                     this.generateMembershipRequestMail(recipientUser, membershipRequest, processInstanceId));
         }
+    }
+
+    @Override
+    @Async
+    public void sendRequestForMoreDocumentsEmail(User recipientUser, String processInstanceId) throws MessagingException {
+        this.sendEmail(
+                recipientUser.getEmail(),
+                "LASS Membership Request - Resubmission required",
+                this.generateResubmissionRequiredMail(recipientUser, processInstanceId));
     }
 
     /**
@@ -191,4 +202,14 @@ public class EmailNotificationServiceImpl implements NotificationService {
         return this.springTemplateEngine
                 .process(this.membershipRequestTemplateName, new Context(Locale.getDefault(), variables));
     }
+
+    private String generateResubmissionRequiredMail(User recipientUser, String processInstanceId) {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("recipient", recipientUser.getFirstName());
+        variables.put("pid", processInstanceId);
+
+        return this.springTemplateEngine
+                .process(this.resubmissionRequiredTemplateName, new Context(Locale.getDefault(), variables));
+    }
+
 }
