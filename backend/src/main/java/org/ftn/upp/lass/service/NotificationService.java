@@ -25,4 +25,6 @@ public interface NotificationService {
      void sendMembershipRequestAcceptanceEmail(User recipientUser, String processInstanceId) throws MessagingException;
      @Async
      void sendMembershipRequestRejectionEmail(User recipientUser, String processInstanceId) throws MessagingException;
+     @Async
+     void sendMembershipPaymentDeadlineEmail(User recipientUser, String processInstanceId) throws MessagingException;
 }

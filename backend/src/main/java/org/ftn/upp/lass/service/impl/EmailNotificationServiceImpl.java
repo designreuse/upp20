@@ -52,6 +52,10 @@ public class EmailNotificationServiceImpl implements NotificationService {
 
     @Value("${templates.html.membership_request_rejection}")
     private String membershipRequestRejectionTemplateName;
+
+    @Value("${templates.html.membership_payment_deadline}")
+    private String membershipPaymentDeadlineTemplateName;
+
     private final JavaMailSender mailSender;
     private final ITemplateEngine springTemplateEngine;
 
@@ -133,6 +137,16 @@ public class EmailNotificationServiceImpl implements NotificationService {
                 "LASS Membership Request - Rejected",
                 this.generateMembershipRequestRejectionMail(recipientUser, processInstanceId));
     }
+
+    @Override
+    @Async
+    public void sendMembershipPaymentDeadlineEmail(User recipientUser, String processInstanceId) throws MessagingException {
+        this.sendEmail(
+                recipientUser.getEmail(),
+                "LASS Membership Request - Payment deadline",
+                this.generateMembershipPaymentDeadlineMail(recipientUser, processInstanceId));
+    }
+
     /**
      * Sends an email with given content and attachments to the recipient.
      *
@@ -280,4 +294,12 @@ public class EmailNotificationServiceImpl implements NotificationService {
                 .process(this.membershipRequestRejectionTemplateName, new Context(Locale.getDefault(), variables));
     }
 
+    private String generateMembershipPaymentDeadlineMail(User recipientUser, String processInstanceId) {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("recipient", recipientUser.getFirstName());
+        variables.put("pid", processInstanceId);
+
+        return this.springTemplateEngine
+                .process(this.membershipPaymentDeadlineTemplateName, new Context(Locale.getDefault(), variables));
+    }
 }

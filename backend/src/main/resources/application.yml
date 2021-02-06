@@ -57,6 +57,8 @@ templates:
     resubmission_required: "resubmission_required"
     resubmission_finished: "resubmission_finished"
     membership_request_acceptance: "membership_request_acceptance"
+    membership_request_rejection: "membership_request_rejection"
+    membership_payment_deadline: "membership_payment_deadline"
 
 # TODO: File upload configuration
 # TODO: File storage configuration
