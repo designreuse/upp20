@@ -2,6 +2,7 @@ package org.ftn.upp.lass.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.ftn.upp.lass.model.BoardMember;
+import org.ftn.upp.lass.model.Document;
 import org.ftn.upp.lass.model.MembershipRequest;
 import org.ftn.upp.lass.model.User;
 import org.ftn.upp.lass.service.NotificationService;
@@ -19,7 +20,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
@@ -86,14 +86,12 @@ public class EmailNotificationServiceImpl implements NotificationService {
     @Override
     @Async
     public void sendMembershipRequestEmail(List<BoardMember> recipientUsers, MembershipRequest membershipRequest, String processInstanceId) throws MessagingException {
-
-        // TODO (fivkovic): Get documents from DB and add them to email
-
         for (User recipientUser : recipientUsers) {
-            this.sendEmail(
+            this.sendEmailWithAttachments(
                     recipientUser.getEmail(),
                     "LASS Membership Request - Review required",
-                    this.generateMembershipRequestMail(recipientUser, membershipRequest, processInstanceId));
+                    this.generateMembershipRequestMail(recipientUser, membershipRequest, processInstanceId),
+                    membershipRequest.getSubmittedDocuments());
         }
     }
 
@@ -109,14 +107,12 @@ public class EmailNotificationServiceImpl implements NotificationService {
     @Override
     @Async
     public void sendResubmissionEmail(List<BoardMember> recipientUsers, MembershipRequest membershipRequest, String processInstanceId) throws MessagingException {
-
-        // TODO (fivkovic): Get documents from DB and add them to email
-
         for (User recipientUser : recipientUsers) {
-            this.sendEmail(
+            this.sendEmailWithAttachments(
                     recipientUser.getEmail(),
                     "LASS Membership Request - Resubmission finished",
-                    this.generateResubmissionFinishedMail(recipientUser, membershipRequest, processInstanceId));
+                    this.generateResubmissionFinishedMail(recipientUser, membershipRequest, processInstanceId),
+                    membershipRequest.getSubmittedDocuments());
         }
     }
 
@@ -154,33 +150,26 @@ public class EmailNotificationServiceImpl implements NotificationService {
      * @param recipientEmailAddress Recipient's email address
      * @param subject               Email subject
      * @param text                  Email content
-     * @param fileName              Name of the attachment file
-     * @param pdf                   PDF file
-     * @param html                  HTML file
+     * @param documents                   PDF files
      * @throws MessagingException Exception thrown in case an error on the SMTP server occurs
      */
     @Async
-    void sendEmailWithAttachments(String recipientEmailAddress, String subject, String text,
-                                  String fileName, byte[] pdf, String html) throws MessagingException {
-
-        final String currentDate = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
-        final String newFileName = String.format("%s_%s", fileName, currentDate);
+    void sendEmailWithAttachments(String recipientEmailAddress, String subject, String text, Set<Document> documents) throws MessagingException {
 
         MimeBodyPart textBodyPart = new MimeBodyPart();
         textBodyPart.setContent(text, TEXT_HTML_VALUE);
 
-        MimeBodyPart pdfAttachmentBodyPart = new MimeBodyPart();
-        pdfAttachmentBodyPart.setContent(pdf, APPLICATION_PDF_VALUE);
-        pdfAttachmentBodyPart.setFileName(newFileName + ".pdf");
-
-        MimeBodyPart htmlAttachmentBodyPart = new MimeBodyPart();
-        htmlAttachmentBodyPart.setContent(html, TEXT_HTML_VALUE);
-        htmlAttachmentBodyPart.setFileName(newFileName + ".html");
-
         Multipart multipartContent = new MimeMultipart();
         multipartContent.addBodyPart(textBodyPart);
-        multipartContent.addBodyPart(pdfAttachmentBodyPart);
-        multipartContent.addBodyPart(htmlAttachmentBodyPart);
+
+        for (var document : documents) {
+
+            MimeBodyPart pdfAttachmentBodyPart = new MimeBodyPart();
+            pdfAttachmentBodyPart.setContent(document.getByteContent(), APPLICATION_PDF_VALUE);
+            pdfAttachmentBodyPart.setFileName(document.getName());
+
+            multipartContent.addBodyPart(pdfAttachmentBodyPart);
+        }
 
         this.sendEmail(recipientEmailAddress, subject, multipartContent);
     }
