@@ -55,6 +55,7 @@ templates:
     verification: "verification"
     membership_request: "membership_request"
     resubmission_required: "resubmission_required"
+    resubmission_finished: "resubmission_finished"
 
 # TODO: File upload configuration
 # TODO: File storage configuration

@@ -43,6 +43,9 @@ public class EmailNotificationServiceImpl implements NotificationService {
 
     @Value("${templates.html.resubmission_required}")
     private String resubmissionRequiredTemplateName;
+
+    @Value("${templates.html.resubmission_finished}")
+    private String resubmissionFinishedTemplateName;
     private final JavaMailSender mailSender;
     private final ITemplateEngine springTemplateEngine;
 
@@ -91,6 +94,20 @@ public class EmailNotificationServiceImpl implements NotificationService {
                 recipientUser.getEmail(),
                 "LASS Membership Request - Resubmission required",
                 this.generateResubmissionRequiredMail(recipientUser, processInstanceId));
+    }
+
+    @Override
+    @Async
+    public void sendResubmissionEmail(List<BoardMember> recipientUsers, MembershipRequest membershipRequest, String processInstanceId) throws MessagingException {
+
+        // TODO (fivkovic): Get documents from DB and add them to email
+
+        for (User recipientUser : recipientUsers) {
+            this.sendEmail(
+                    recipientUser.getEmail(),
+                    "LASS Membership Request - Resubmission finished",
+                    this.generateResubmissionFinishedMail(recipientUser, membershipRequest, processInstanceId));
+        }
     }
 
     /**
