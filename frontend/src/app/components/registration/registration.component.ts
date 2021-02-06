@@ -3,14 +3,14 @@ import {FormControl} from '@angular/forms';
 import {Observable, of} from 'rxjs';
 import {FormFieldBase} from 'src/app/model/form-field-base';
 import {FormService} from 'src/app/services/form.service';
-import {ProcessService} from '../services/process.service';
+import {ProcessService} from '../../services/process.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ProcessConstants} from '../model/process-constants';
-import {ProcessInfoResponse} from '../model/response/process-info-response';
-import {TaskService} from '../services/task.service';
-import {FormFieldsResponse} from '../model/response/form-fields-response';
-import {FormSubmissionType} from '../model/form-submission-type';
-import {TaskInfoResponse} from '../model/response/task-info-response';
+import {ProcessConstants} from '../../model/process-constants';
+import {ProcessInfoResponse} from '../../model/response/process-info-response';
+import {TaskService} from '../../services/task.service';
+import {FormFieldsResponse} from '../../model/response/form-fields-response';
+import {FormSubmissionType} from '../../model/form-submission-type';
+import {TaskInfoResponse} from '../../model/response/task-info-response';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -51,12 +51,11 @@ export class RegistrationComponent implements OnInit {
     this.taskService.getCurrentlyActiveTaskForm(this.processInstanceId).subscribe((response: FormFieldsResponse) => {
       // todo maybe if processInstanceId doesn't exist, or it's different, show error?
       localStorage.setItem('taskId', response.taskId);
-      console.log('response', response);
+      console.log('Currently Active Task Form', response);
       response.formFields.forEach((field: FormFieldBase<any>) => {
         this.formFields[field.id] = new FormControl(
           field.defaultValue,
-          null
-          // field.validationConstraints.length > 0 ? this.formService.generateValidations(field.validationConstraints) : null
+          field.validationConstraints.length > 0 ? this.formService.generateValidations(field.validationConstraints) : null
         );
       });
 
