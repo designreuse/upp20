@@ -56,6 +56,7 @@ templates:
     membership_request: "membership_request"
     resubmission_required: "resubmission_required"
     resubmission_finished: "resubmission_finished"
+    membership_request_acceptance: "membership_request_acceptance"
 
 # TODO: File upload configuration
 # TODO: File storage configuration

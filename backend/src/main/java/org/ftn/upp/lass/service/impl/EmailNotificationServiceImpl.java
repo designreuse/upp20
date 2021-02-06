@@ -46,6 +46,9 @@ public class EmailNotificationServiceImpl implements NotificationService {
 
     @Value("${templates.html.resubmission_finished}")
     private String resubmissionFinishedTemplateName;
+
+    @Value("${templates.html.membership_request_acceptance}")
+    private String membershipRequestAcceptanceTemplateName;
     private final JavaMailSender mailSender;
     private final ITemplateEngine springTemplateEngine;
 
@@ -108,6 +111,15 @@ public class EmailNotificationServiceImpl implements NotificationService {
                     "LASS Membership Request - Resubmission finished",
                     this.generateResubmissionFinishedMail(recipientUser, membershipRequest, processInstanceId));
         }
+    }
+
+    @Override
+    @Async
+    public void sendMembershipRequestAcceptanceEmail(User recipientUser, String processInstanceId) throws MessagingException {
+        this.sendEmail(
+                recipientUser.getEmail(),
+                "LASS Membership Request - Accepted",
+                this.generateMembershipRequestAcceptanceMail(recipientUser, processInstanceId));
     }
 
     /**

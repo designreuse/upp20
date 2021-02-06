@@ -21,4 +21,6 @@ public interface NotificationService {
      void sendRequestForMoreDocumentsEmail(User recipientUser, String processInstanceId) throws MessagingException;
      @Async
      void sendResubmissionEmail(List<BoardMember> recipientUsers, MembershipRequest membershipRequest, String processInstanceId) throws MessagingException;
+     @Async
+     void sendMembershipRequestAcceptanceEmail(User recipientUser, String processInstanceId) throws MessagingException;
 }
